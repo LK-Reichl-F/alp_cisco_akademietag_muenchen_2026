@@ -10,38 +10,32 @@
 
 ## Netzwerkdiagramm
 
-```
-Internet
-    │
-    │  (Angreifer-Netzwerk)
-    ├── Kali Linux:      205.174.165.73   (Hauptangreifer)
-    ├── Windows Angreifer: 205.174.165.69
-    ├── Windows Angreifer: 205.174.165.70
-    └── Windows Angreifer: 205.174.165.71
+```mermaid
+graph TD
+    subgraph ATK["Angreifer (205.174.165.x)"]
+        Kali["Kali Linux<br/>.73 – Hauptangreifer"]
+        Win["3× Windows<br/>.69 · .70 · .71 – DDoS LOIT"]
+    end
 
-    │
-[Firewall]
-    Extern: 205.174.165.80
-    Intern:  172.16.0.1
-    │
-    │  NAT: 205.174.165.80 → 172.16.0.1
-    │
-[Switch]
-    │
-    └── Opfer-Netzwerk: 192.168.10.0/24
-         │
-         ├── Web Server Debian 16 (public)  192.168.10.50 / 205.174.165.68
-         ├── Debian Server 12 (public)      192.168.10.51 / 205.174.165.66
-         ├── Debian 14.4, 32-Bit            192.168.10.19
-         ├── Debian 14.4, 64-Bit            192.168.10.17
-         ├── Debian 16.4, 32-Bit            192.168.10.16
-         ├── Debian 16.4, 64-Bit            192.168.10.12
-         ├── Windows 7 Pro, 64-Bit          192.168.10.9
-         ├── Windows 8.1, 64-Bit            192.168.10.5
-         ├── Windows Vista, 64-Bit          192.168.10.8
-         ├── Windows 10 Pro, 32-Bit         192.168.10.14
-         ├── Windows 10, 64-Bit             192.168.10.15
-         └── MacOS                          192.168.10.25
+    FW["Firewall<br/>extern: 205.174.165.80<br/>intern: 172.16.0.1 · NAT"]
+    SW["Switch · Mirror-Port"]
+
+    subgraph VIC["Opfer-Netzwerk (192.168.10.0/24)"]
+        WebSrv["Web Server Debian 16<br/>.50 / 205.174.165.68"]
+        DebSrv["Debian Server 12<br/>.51 / 205.174.165.66"]
+        Deb["4× Debian<br/>.12 · .16 · .17 · .19"]
+        WinC["5× Windows<br/>.5 · .8 · .9 · .14 · .15"]
+        Mac["MacOS<br/>.25"]
+    end
+
+    Kali -->|Angriff| FW
+    Win -->|DDoS| FW
+    FW -->|NAT| SW
+    SW --> WebSrv
+    SW --> DebSrv
+    SW --> Deb
+    SW --> WinC
+    SW --> Mac
 ```
 
 ## Komponenten

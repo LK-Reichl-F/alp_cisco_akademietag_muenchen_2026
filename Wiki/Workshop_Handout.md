@@ -38,14 +38,15 @@ Ein Unternehmensnetzwerk wurde eine Woche lang überwacht. Der Netzwerkverkehr w
 
 Orange ist ein visuelles Data-Mining-Werkzeug. **Widgets** werden mit Pfeilen verbunden – kein Programmieren nötig.
 
-```
-[Datensatz laden] ──→ [Datentabelle]
-        │
-        ├──→ [Scatter Plot]
-        │
-        └──→ [Train/Test-Split] ──→ [Entscheidungsbaum] ──→ [Baum-Visualisierung]
-                                              │
-                                    [Test & Bewertung] ──→ [Confusion Matrix]
+```mermaid
+flowchart LR
+    F([Datensatz laden]) --> DT[Datentabelle]
+    F --> SP[Scatter Plot]
+    F --> TTS[Train/Test-Split]
+    TTS --> EB[Entscheidungsbaum]
+    EB --> BV[Baum-Visualisierung]
+    EB --> TaS[Test & Bewertung]
+    TaS --> CM[Confusion Matrix]
 ```
 
 ### Schritt für Schritt

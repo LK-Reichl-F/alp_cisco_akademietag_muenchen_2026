@@ -10,28 +10,24 @@
 
 ## Gesamtworkflow
 
-```
-[File]
-  │
-  ├──→ [Data Table]          (Phase 2: Daten anschauen)
-  │
-  ├──→ [Scatter Plot]        (Phase 2: Visualisierung)
-  │
-  ├──→ [Distributions]       (Phase 2: Feature-Verteilung)
-  │
-  └──→ [Data Sampler]
-           │
-           ├── Training ──→ [Tree] ──→ [Tree Viewer]   (Phase 3)
-           │                    │
-           │                    └──→ [Scatter Plot]    (Phase 3: Hervorhebung)
-           │
-           └── Test ──→ [Test and Score] ← [Tree]      (Phase 4)
-                                 │        ← [Random Forest]
-                                 │        ← [kNN]
-                                 │
-                                 └──→ [Confusion Matrix]
-                                              │
-                                              └──→ [Scatter Plot]  (Phase 4)
+```mermaid
+flowchart TD
+    File([File]) --> DT["Data Table<br/>Phase 2"]
+    File --> SP1["Scatter Plot<br/>Phase 2"]
+    File --> Di["Distributions<br/>Phase 2"]
+    File --> DS[Data Sampler]
+
+    DS -->|Training| Tree[Tree]
+    Tree --> TV["Tree Viewer<br/>Phase 3"]
+    Tree --> SP2["Scatter Plot<br/>Phase 3"]
+
+    DS -->|alle Daten| TaS["Test and Score<br/>Phase 4"]
+    Tree --> TaS
+    RF[Random Forest] --> TaS
+    KNN[kNN] --> TaS
+
+    TaS --> CM[Confusion Matrix]
+    CM --> SP3["Scatter Plot<br/>Phase 4"]
 ```
 
 ---
@@ -72,13 +68,17 @@
 - Farbe: `Label` (Klasse)
 
 **Erwartetes Ergebnis** (aus echten Daten bestätigt):
-```
-Down/Up Ratio (hoch) │  ·· · Benign (kleine Pakete, Antworten kommen zurück)
-                 1.0  │  ·  ·  ·
-                      │
-                 0.0  │              ████ DDoS (große HTTP-Pakete, keine Antwort)
-──────────────────────┼──────────────────────────── Packet Length Mean
-                     60               833
+```mermaid
+quadrantChart
+    title Scatter Plot – Klassen-Trennung
+    x-axis "Packet Length Mean klein (Ø 60 Byte)" --> "Packet Length Mean groß (Ø 834 Byte)"
+    y-axis "Down/Up Ratio 0" --> "Down/Up Ratio 1"
+    quadrant-1 ungewöhnlich
+    quadrant-2 BENIGN-Bereich
+    quadrant-3 Grenzbereich
+    quadrant-4 DDoS-Bereich
+    BENIGN: [0.1, 0.8]
+    DDoS: [0.85, 0.05]
 ```
 
 **Didaktischer Mehrwert**: `Down/Up Ratio = 0` bedeutet: der Angreifer sendet, bekommt aber keine Antwort – der Opfer-Server ist überlastet. Das kennt jede Cisco-Lehrkraft.
@@ -145,12 +145,10 @@ Down/Up Ratio (hoch) │  ·· · Benign (kleine Pakete, Antworten kommen zurüc
 **Widget**: `Confusion Matrix`
 - Verbinde: `Test and Score → Confusion Matrix`
 
-```
-                 Vorhergesagt
-                 Benign   DDoS
-Tatsächlich  Benign  4850    150    ← False Positives = Fehlalarme
-             DDoS      20   4980    ← False Negatives = übersehene Angriffe
-```
+| | **Vorhergesagt: BENIGN** | **Vorhergesagt: DDoS** |
+|---|---|---|
+| **Tatsächlich: BENIGN** | 4850 ✓ | 150 ← Fehlalarme (FP) |
+| **Tatsächlich: DDoS** | 20 ← Übersehene Angriffe (FN) | 4980 ✓ |
 
 **Lernziel**: Precision, Recall, False Positives – jetzt im echten Kontext.
 
@@ -183,21 +181,23 @@ Tatsächlich  Benign  4850    150    ← False Positives = Fehlalarme
 
 ## Vollständige Widget-Verbindungen
 
-```
-File ─────────────────────────────────────────────┬──→ Data Table
-     │                                             │
-     ├──→ Scatter Plot (Exploration)               │
-     │                                             │
-     └──→ Data Sampler                             │
-               │                                   │
-               ├── Training ──→ Tree ──→ Tree Viewer
-               │                   └──→ Scatter Plot (mit Subset)
-               │
-               └── (alle Daten) ──→ Test and Score ←── Tree
-                                          │          ←── Random Forest
-                                          │          ←── kNN
-                                          │
-                                          └──→ Confusion Matrix ──→ Scatter Plot
+```mermaid
+flowchart LR
+    File([File]) --> DT[Data Table]
+    File --> SPE["Scatter Plot\nExploration"]
+    File --> DS[Data Sampler]
+
+    DS -->|Training| Tree[Tree]
+    Tree --> TV[Tree Viewer]
+    Tree --> SPS["Scatter Plot\nSubset"]
+
+    DS -->|alle Daten| TaS[Test and Score]
+    Tree --> TaS
+    RF[Random Forest] --> TaS
+    KNN[kNN] --> TaS
+
+    TaS --> CM[Confusion Matrix]
+    CM --> SPF["Scatter Plot\nFehler"]
 ```
 
 ## Tipps für den Trainer
