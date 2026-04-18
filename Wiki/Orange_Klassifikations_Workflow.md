@@ -106,13 +106,15 @@ quadrantChart
 **Widget**: `Tree Viewer`
 - Verbinde: `Tree → Tree Viewer`
 - Baum zeigt lesbare Regeln, z. B.:
-  ```
-  fl_byt_s > 1.234.567?
-  ├── Ja → DDoS (95%)
-  └── Nein → tot_fw_pk > 500?
-               ├── Ja → DDoS (87%)
-               └── Nein → Benign (99%)
-  ```
+
+```mermaid
+graph TD
+    A{"fl_byt_s > 1.234.567?"}
+    A -->|Ja| B["DDoS (95%)"]
+    A -->|Nein| C{"tot_fw_pk > 500?"}
+    C -->|Ja| D["DDoS (87%)"]
+    C -->|Nein| E["Benign (99%)"]
+```
 
 **Lernziel**: KI = erlernbare Regeln. Der Baum ist erklärbar, nicht magisch.
 
