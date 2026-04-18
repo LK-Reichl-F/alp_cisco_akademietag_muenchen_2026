@@ -69,6 +69,15 @@ Manuell in Orange noch zu konfigurieren: Dateipfad im File-Widget, Scatter-Plot-
 
 ---
 
+## 2026-04-18 — ASCII-Diagramme durch Mermaid ersetzt
+
+- `On_Premise_Netzwerktopologie.md`: Netzwerktopologie → `graph TD` mit Angreifer/Opfer-Subgraphen
+- `Orange_Klassifikations_Workflow.md`: Gesamtworkflow → `flowchart TD`; Scatter-Plot-Illustration → `quadrantChart`; Entscheidungsbaum-Beispiel → `graph TD`; Confusion-Matrix-ASCII → Markdown-Tabelle; vollständige Widget-Verbindungen → `flowchart LR`
+- `Workshop_Handout.md`: Workflow-Kurzanleitung → `flowchart LR`
+- Hinweis: Umlaute in unquoted Mermaid-Kontexten (z. B. `quadrantChart`-Labels) vermeiden
+
+---
+
 ## 2026-04-18 — Offene Schritte geprüft und nachgezogen
 
 - `workshop_workflow_phase1.ows` erstellt (fehlte trotz Referenz in Präsentation und Arbeitsplan)
