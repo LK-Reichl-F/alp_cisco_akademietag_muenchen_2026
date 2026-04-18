@@ -73,7 +73,7 @@ quadrantChart
     title Scatter Plot – Klassen-Trennung
     x-axis "Packet Length Mean klein (Ø 60 Byte)" --> "Packet Length Mean groß (Ø 834 Byte)"
     y-axis "Down/Up Ratio 0" --> "Down/Up Ratio 1"
-    quadrant-1 ungewöhnlich
+    quadrant-1 selten
     quadrant-2 BENIGN-Bereich
     quadrant-3 Grenzbereich
     quadrant-4 DDoS-Bereich
