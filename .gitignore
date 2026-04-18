@@ -1,0 +1,14 @@
+# Rohe CICIDS2017-Datensätze (öffentlich verfügbar auf cicresearch.ca)
+Datensätze/MachineLearningCVE/
+Datensätze/TrafficLabelling /
+
+# LaTeX-Build-Artefakte
+Folien/*.aux
+Folien/*.log
+Folien/*.out
+Folien/*.toc
+Folien/*.nav
+Folien/*.snm
+Folien/*.vrb
+Folien/*.fls
+Folien/*.fdb_latexmk

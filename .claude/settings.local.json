@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pandoc praesentation.md --to beamer --pdf-engine=lualatex --output praesentation.pdf --highlight-style tango)",
+      "Bash(mktexlsr ~/texmf)",
+      "Bash(inkscape --export-type=pdf --export-filename=/home/florian/Dokumente/ALP/Orange_Datenverkehrsanalyse/Folien/alp-logo-icon.pdf /home/florian/Dokumente/ALP/Orange_Datenverkehrsanalyse/Quellen/ALP-Logo.svg)",
+      "Bash(grep -v \"^$\\\\|CMS profile\")",
+      "Read(//usr/share/texmf/**)",
+      "Read(//home/florian/**)",
+      "Bash(kpsewhich beamerthemeALP.sty)",
+      "Read(//usr/local/share/texmf/**)",
+      "WebSearch"
+    ]
+  }
+}
