@@ -56,6 +56,7 @@ Verwandte Konzepte mit [[Wiki-Links]] im Text verknüpfen.
 - [[Verwandtes-Konzept-2]]
 ```
 
+Zeichnung nach Möglichkeit mit Mermaid erstellen.
 ## Zitierregeln
 
 - Jede sachliche Aussage sollte ihre Quelldatei referenzieren

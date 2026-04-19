@@ -39,7 +39,7 @@ Ein Unternehmensnetzwerk wurde eine Woche lang überwacht. Der Netzwerkverkehr w
 Orange ist ein visuelles Data-Mining-Werkzeug. **Widgets** werden mit Pfeilen verbunden – kein Programmieren nötig.
 
 ```mermaid
-flowchart LR
+flowchart TD
     F([Datensatz laden]) --> DT[Datentabelle]
     F --> SP[Scatter Plot]
     F --> TTS[Train/Test-Split]

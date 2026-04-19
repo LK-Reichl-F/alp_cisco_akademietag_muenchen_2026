@@ -11,14 +11,12 @@
             "id": "0dfef64c77e17c66",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Wiki/Workshop_Konzept.md",
-                "mode": "source",
-                "source": false
+                "file": "Folien/handout.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Workshop_Konzept"
+              "icon": "lucide-file-text",
+              "title": "handout"
             }
           }
         ]
@@ -94,9 +92,9 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Quellen/CTAN Paket beamer.md",
-                "collapseAll": false,
-                "extraContext": false,
+                "file": "Wiki/Workshop_Arbeitsplan.md",
+                "collapseAll": true,
+                "extraContext": true,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
@@ -104,7 +102,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Rückverweise auf CTAN Paket beamer"
+              "title": "Rückverweise auf Workshop_Arbeitsplan"
             }
           },
           {
@@ -113,12 +111,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Quellen/CTAN Paket beamer.md",
+                "file": "Wiki/Workshop_Arbeitsplan.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Ausgehende Links von CTAN Paket beamer öffnen"
+              "title": "Ausgehende Links von Workshop_Arbeitsplan öffnen"
             }
           },
           {
@@ -156,20 +154,20 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Quellen/CTAN Paket beamer.md",
+                "file": "Wiki/Workshop_Arbeitsplan.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Gliederung von CTAN Paket beamer"
+              "title": "Gliederung von Workshop_Arbeitsplan"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 601.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -185,51 +183,50 @@
   },
   "active": "0dfef64c77e17c66",
   "lastOpenFiles": [
-    "Wiki/Log.md.tmp.5263.1776522018768",
-    "Wiki/Workshop_Arbeitsplan.md.tmp.5263.1776522012220",
-    "Folien/praesentation.md.tmp.5263.1776521979354",
-    "Datensätze/workshop_workflow_phase1.ows",
-    "Datensätze/workshop_workflow_phase1.ows.tmp.5263.1776521974050",
+    "Wiki/Workshop_Arbeitsplan.md",
+    "Quellen/Rahmen-Story.md",
+    "Folien/luatex.AECgbO/3.png",
+    "Folien/luatex.AECgbO/2.png",
+    "Folien/luatex.AECgbO/1.png",
+    "Folien/luatex.AECgbO",
+    "Folien/luatex.XBoi4s/3.png",
+    "Folien/luatex.XBoi4s/2.png",
+    "Folien/luatex.XBoi4s/1.png",
+    "Folien/luatex.XBoi4s",
+    "Folien/praesentation.md.tmp.6173.1776589742088",
+    "Folien/handout.out",
+    "Folien/handout.aux",
+    "Folien/handout.pdf",
+    "Folien/handout.tex.tmp.6173.1776589716736",
+    "Folien/handout.tex.tmp.6173.1776589712822",
+    "Folien/handout.log",
+    "Folien/handout.tex",
+    "Quellen/MaschinellesLernen.drawio.svg",
+    "Quellen/MaschinellesLernen.drawio.png",
+    "Wiki/Orange_Klassifikations_Workflow.md",
+    "Wiki/Workshop_Konzept.md",
+    "Wiki/Workshop_Handout.md",
+    "CLAUDE.md",
+    "Wiki/CICFlowMeter_Features.md",
+    "Wiki/Orange_Data_Mining.md",
     "Wiki/Index.md",
-    "Folien/praesentation.pdf",
+    "README.md",
     "Folien/luatex.XX2900/3.png",
     "Folien/luatex.XX2900/2.png",
-    "Folien/luatex.XX2900/1.png",
-    "Folien/luatex.XX2900",
-    "Folien/luatex.centHK/3.png",
-    "Folien/luatex.centHK/2.png",
-    "Folien/luatex.centHK/1.png",
-    "Folien/luatex.centHK",
-    "Folien/praesentation.md.tmp.5263.1776521478024",
-    "Folien/luatex.8Vw01v/3.png",
-    "Folien/luatex.8Vw01v/2.png",
-    "Folien/luatex.8Vw01v/1.png",
-    "Folien/luatex.8Vw01v",
-    "Folien/luatex.YiLZWT/3.png",
-    "Folien/luatex.YiLZWT",
     "Folien/praesentation.md",
-    "CLAUDE.md",
     "Quellen/CTAN Paket beamer.md",
     "Quellen/Pandoc.md",
-    "Wiki/Workshop_Handout.md",
-    "Wiki/Workshop_Arbeitsplan.md",
     "Wiki/CIC_UNSW_NB15.md",
     "Wiki/BETH_Dataset.md",
     "Wiki/CIC_IDS_2018.md",
-    "Wiki/Orange_Klassifikations_Workflow.md",
     "Wiki/On_Premise_Netzwerktopologie.md",
-    "Wiki/Workshop_Konzept.md",
-    "Wiki/CICFlowMeter_Features.md",
     "Wiki/Angriffsszenarien.md",
     "Wiki/Log.md",
-    "Wiki/Orange_Data_Mining.md",
     "Wiki/CICIDS2017.md",
     "Quellen/BETH Dataset.md",
     "Quellen/IDS 2018  Datasets  Research  Canadian Institute for Cybersecurity.md",
     "Quellen/IDS 2017  Datasets  Research  Canadian Institute for Cybersecurity.md",
     "Quellen/UNSW-NB15 Augmented Dataset  Datasets  Research  Canadian Institute for Cybersecurity.md",
-    "Quellen/Examples.md",
-    "Quellen/Orange Data Mining.md",
-    "Quellen/Widget Catalog.md"
+    "Quellen/Examples.md"
   ]
 }

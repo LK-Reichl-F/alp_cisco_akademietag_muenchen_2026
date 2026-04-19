@@ -1,0 +1,309 @@
+% Teilnehmer-Handout – KI erkennt Netzwerkangriffe
+% LuaLaTeX · A4 · Schwarz-Weiß
+% Schriften: Roboto Slab (Haupttext), Roboto (Überschriften), JetBrains Mono
+
+\documentclass[a4paper, 10pt]{article}
+
+% ── Engine & Schriften ───────────────────────────────────────────────────────
+\usepackage{fontspec}
+\setmainfont{Roboto Slab}
+\setsansfont{Roboto Flex}
+\setmonofont{JetBrains Mono}[Scale=MatchLowercase]
+
+% ── Seitenlayout ────────────────────────────────────────────────────────────
+\usepackage[
+  a4paper,
+  top=15mm, bottom=13mm,
+  left=17mm, right=17mm
+]{geometry}
+\usepackage{microtype}
+\usepackage{multicol}
+\setlength{\multicolsep}{4pt}
+\setlength{\columnsep}{14pt}
+
+% ── Farben (Graustufen für S/W-Druck) ───────────────────────────────────────
+\usepackage{xcolor}
+\definecolor{dunkelgrau}{gray}{0.28}
+\definecolor{mittelgrau}{gray}{0.60}
+\definecolor{hellgrau}{gray}{0.93}
+
+% ── Überschriften ────────────────────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\section}
+  {\sffamily\bfseries\normalsize\color{black}}
+  {}{0em}{}
+  [{\color{mittelgrau}\hrule height 0.5pt}]
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+
+% ── Tabellen ────────────────────────────────────────────────────────────────
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+
+% ── Listen ──────────────────────────────────────────────────────────────────
+\usepackage{enumitem}
+\setlist{nosep, topsep=2pt, leftmargin=1.4em, itemsep=1pt}
+
+% ── Grafik ──────────────────────────────────────────────────────────────────
+\usepackage{graphicx}
+
+% ── Übungsboxen (tcolorbox) ──────────────────────────────────────────────────
+\usepackage[most]{tcolorbox}
+\tcbset{
+  uebstyle/.style={
+    enhanced,
+    colback=hellgrau,
+    colframe=mittelgrau,
+    boxrule=0.5pt,
+    arc=2pt,
+    top=4pt, bottom=4pt, left=7pt, right=7pt,
+    before skip=5pt, after skip=5pt,
+    fonttitle=\sffamily\bfseries\small,
+    attach boxed title to top left={yshift=-2.2mm, xshift=5mm},
+    boxed title style={
+      colback=mittelgrau, colframe=mittelgrau,
+      arc=2pt, top=1pt, bottom=1pt, left=4pt, right=4pt
+    },
+  }
+}
+\newcommand{\uebung}[2]{%
+  \begin{tcolorbox}[uebstyle, title={Übung #1}]%
+  \small #2%
+  \end{tcolorbox}%
+}
+
+% ── Sonstiges ───────────────────────────────────────────────────────────────
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+
+% ════════════════════════════════════════════════════════════════════════════
+\begin{document}
+\pagestyle{empty}
+
+% ── Kopfzeile ────────────────────────────────────────────────────────────────
+\noindent
+\begin{minipage}[c]{0.70\linewidth}
+  {\sffamily\bfseries\Large KI erkennt Netzwerkangriffe}\\[2pt]
+  {\sffamily\large Einführung in Data Mining mit Orange}\\[4pt]
+  {\sffamily\footnotesize\color{dunkelgrau}%
+    ALP Dillingen\enspace·\enspace
+    Cisco Academy\enspace·\enspace
+    90 Minuten}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.26\linewidth}
+  \raggedleft
+  \includegraphics[height=13mm]{alp-logo.pdf}
+\end{minipage}
+
+\vspace{3pt}
+{\color{black}\rule{\linewidth}{0.9pt}}
+\vspace{0pt}
+
+% ════════════════════════════════════════════════════════════════════════════
+\begin{multicols}{2}
+
+% ─── 1. Das Problem ──────────────────────────────────────────────────────────
+\section{Das Problem}
+
+Euer Netzwerk ist durch eine \textbf{Cisco NGFW} (Next-Generation Firewall)
+oder eine \textbf{ASA mit IPS-Modul} geschützt. Diese Geräte analysieren
+jeden Paket-Header gegen eine Signatur-Datenbank –
+\emph{Deep Packet Inspection} (DPI).
+
+\textbf{Schwachstelle bei DDoS:}
+Tausende Flows/Sekunde → Appliance-CPU auf 100\,\% → Alarme häufen sich
+→ Administratoren ignorieren sie (\emph{Alert Fatigue})
+→ echter Angriff bleibt unbemerkt.
+
+\textbf{Idee:} Ein einfaches ML-Modell filtert bösartigen Traffic
+\emph{vor} der DPI-Stufe – anhand statistischer Flow-Merkmale,
+ohne Payload-Inspektion.
+
+\uebung{1}{%
+  Welche 2 Flow-Merkmale könnten bei einem DDoS-Angriff auffällig sein?\\
+  (Tipp: Paketgröße? Antwortverhalten des Servers?)\\[8pt]
+  \dotfill\\[6pt]
+  \dotfill
+}
+
+% ─── 2. Regelbasiert vs. Machine Learning ────────────────────────────────────
+\section{Regelbasiert vs.\ Machine Learning}
+
+\begin{tabularx}{\linewidth}{@{}p{2.3cm}X@{}}
+\toprule
+\textbf{Regelbasiert} &
+  Experten schreiben Regeln:
+  \texttt{if SYN > 1000 → BLOCK}.
+  Neue Angriffe erfordern neue Regeln.\\
+\midrule
+\textbf{Machine Learning} &
+  Modell \emph{lernt} Regeln aus Daten:
+  Beispiele mit bekannten Labels → Muster erkennen.
+  Neue Muster: neue Trainingsdaten genügen.\\
+\bottomrule
+\end{tabularx}
+
+% ─── 3. Datensatz ────────────────────────────────────────────────────────────
+\section{Datensatz: CICIDS2017}
+
+10\,000 Flows aus einem simulierten On-Premise-Netz
+(Firewall · Switch · 12 Hosts):\\
+5\,000 BENIGN (Montag) + 5\,000 DDoS (Freitag, LOIT).
+
+\smallskip
+\begin{tabularx}{\linewidth}{@{}lrr@{}}
+\toprule
+\textbf{Feature} & \textbf{BENIGN} & \textbf{DDoS}\\
+\midrule
+\texttt{Packet Length Mean} & 60\,B & 834\,B\\
+\texttt{Down/Up Ratio} & 1{,}0 & \textbf{0{,}0}\\
+\texttt{Flow Duration} & 31\,ms & 1893\,ms\\
+\texttt{Flow Packets/s} & 119 & 2{,}5\\
+\texttt{SYN Flag Count} & 0{,}06 & 0{,}0\\
+\bottomrule
+\end{tabularx}
+
+% ─── 4. Phase 2 – Daten erkunden ─────────────────────────────────────────────
+\section{Phase 2 – Daten erkunden}
+
+Workflow: \texttt{workshop\_workflow\_phase1.ows}
+
+\begin{enumerate}
+\item \textbf{File:} \texttt{workshop\_ids.tab} öffnen
+\item \textbf{Data Table:} Spalten und Werte ansehen –
+      was bedeutet jede Zeile?
+\item \textbf{Scatter Plot:}
+      X = \texttt{Packet Length Mean},
+      Y = \texttt{Down/Up Ratio},
+      Farbe = \texttt{Label}
+\end{enumerate}
+
+\uebung{2}{%
+  Was seht ihr im Scatter Plot?
+  Beschreibt in einem Satz, warum
+  \texttt{Down/Up Ratio\,=\,0} bei DDoS physikalisch sinnvoll ist.\\[10pt]
+  \dotfill\\[8pt]
+  \dotfill
+}
+
+\columnbreak
+
+% ─── 5. Phase 3 – Entscheidungsbaum ──────────────────────────────────────────
+\section{Phase 3 – Entscheidungsbaum}
+
+Workflow: \texttt{workshop\_workflow.ows}
+
+\begin{enumerate}[start=4]
+\item \textbf{Data Sampler:} 70\,\% Training / 30\,\% Test
+\item \textbf{Tree:} Modell trainieren (Standardeinstellungen)
+\item \textbf{Tree Viewer:} Regeln lesen;
+      Knoten anklicken → Scatter Plot leuchtet auf
+\end{enumerate}
+
+\smallskip
+Ein Entscheidungsbaum stellt \textbf{Ja/Nein-Fragen} zu den Features.
+Die Regeln sind menschenlesbar –
+das ist \emph{Explainable AI}: KI, die wir erklären und verteidigen können.
+
+\uebung{3}{%
+  \textbf{a)} Lest die erste Verzweigung im Tree Viewer laut vor.
+  Ergibt sie für euch als Netzwerker Sinn?\\[8pt]
+  \dotfill\\[6pt]
+  \textbf{b)} Klickt einen Knoten an.
+  Welche Datenpunkte leuchten im Scatter Plot auf?\\[8pt]
+  \dotfill
+}
+
+% ─── 6. Phase 4 – Modellbewertung ────────────────────────────────────────────
+\section{Phase 4 – Modellbewertung}
+
+\begin{enumerate}[start=7]
+\item \textbf{Test and Score:}
+      Accuracy, Precision, Recall\\
+      (10-fache Kreuzvalidierung)
+\item \textbf{Confusion Matrix:}
+      FP auswählen → Scatter Plot zeigt Grenzfälle
+\end{enumerate}
+
+\smallskip
+\begin{tabularx}{\linewidth}{@{}rcc@{}}
+\toprule
+& \textbf{Pred. DDoS} & \textbf{Pred. BENIGN}\\
+\midrule
+\textbf{Ist DDoS} & TP\;✓ & FN\;✗\\
+\textbf{Ist BENIGN} & FP\;! & TN\;✓\\
+\bottomrule
+\end{tabularx}
+
+\uebung{4}{%
+  Accuracy = 98\,\%, 10\,000 Flows pro Stunde.\\[2pt]
+  \textbf{a)} Wie viele Fehlentscheidungen pro Stunde?\\[7pt]
+  \dotfill\\[5pt]
+  \textbf{b)} Was ist in eurem Schulnetz schlimmer – FP oder FN?\\[7pt]
+  \dotfill
+}
+
+% ─── 7. Phase 5 – Modellvergleich ────────────────────────────────────────────
+\section{Phase 5 – Modellvergleich}
+
+\begin{enumerate}[start=9]
+\item \textbf{Random Forest + kNN}
+      mit Test and Score verbinden und vergleichen
+\end{enumerate}
+
+\begin{tabularx}{\linewidth}{@{}lcc@{}}
+\toprule
+\textbf{Modell} & \textbf{Accuracy} & \textbf{Erklärbar?}\\
+\midrule
+Entscheidungsbaum & $\sim$98\,\% & Ja\\
+Random Forest & $\sim$99\,\% & Nein\\
+kNN & $\sim$96\,\% & Bedingt\\
+\bottomrule
+\end{tabularx}
+
+\smallskip
+{\small
+\textbf{Random Forest:} Viele Bäume stimmen ab – wie ein Komitee.\\
+\textbf{kNN:} Klasse der nächsten Nachbarn in den Trainingsdaten.
+}
+
+\uebung{5}{%
+  Welches Modell würdet ihr als Vorfilter vor einer NGFW einsetzen?
+  Begründet mit einem Argument
+  \emph{für} Genauigkeit \emph{oder} Erklärbarkeit.\\[10pt]
+  \dotfill\\[8pt]
+  \dotfill
+}
+
+% ─── Glossar ─────────────────────────────────────────────────────────────────
+\section*{Glossar}
+
+{\small
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X@{}}
+\textbf{Flow}        & Verbindungszusammenfassung (kein Payload) \\
+\textbf{Feature}     & Messbares Merkmal eines Flows \\
+\textbf{Label}       & Bekannte Klasse: \texttt{BENIGN} oder \texttt{DDoS} \\
+\textbf{Training}    & Modell lernt aus 70\,\% der Daten \\
+\textbf{Accuracy}    & Anteil richtig klassifizierter Flows \\
+\textbf{FP}          & Fehlalarm – BENIGN fälschlich als DDoS \\
+\textbf{FN}          & Übersehener Angriff – DDoS als BENIGN \\
+\textbf{Alert Fatigue} & Admins ignorieren Alarme (zu viele FP) \\
+\textbf{Explainable AI} & KI mit lesbaren, verteidigbaren Regeln \\
+\end{tabularx}
+}
+
+\vfill
+
+\rule{\linewidth}{0.4pt}
+{\footnotesize\sffamily\color{dunkelgrau}%
+  Datensatz: CICIDS2017 · Univ.\ of New Brunswick · cicresearch.ca\quad
+  Tool: Orange · orangedatamining.com\\
+  Materialien: \texttt{workshop\_ids.tab} · \texttt{workshop\_workflow.ows}
+  · \texttt{workshop\_workflow\_phase1.ows}
+}
+
+\end{multicols}
+\end{document}

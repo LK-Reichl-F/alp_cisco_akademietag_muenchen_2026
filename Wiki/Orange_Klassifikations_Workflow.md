@@ -184,7 +184,7 @@ graph TD
 ## Vollständige Widget-Verbindungen
 
 ```mermaid
-flowchart LR
+flowchart TD
     File([File]) --> DT[Data Table]
     File --> SPE["Scatter Plot\nExploration"]
     File --> DS[Data Sampler]

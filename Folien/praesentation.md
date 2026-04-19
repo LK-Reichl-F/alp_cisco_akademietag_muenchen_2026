@@ -10,7 +10,7 @@ aspectratio: 169
 fontsize: 11pt
 lang: de-DE
 mainfont: Roboto Slab
-sansfont: Roboto
+sansfont: Roboto Flex
 monofont: JetBrains Mono
 header-includes:
   - \setbeamercovered{transparent}
