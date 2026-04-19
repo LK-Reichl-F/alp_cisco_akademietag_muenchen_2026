@@ -69,6 +69,14 @@ Manuell in Orange noch zu konfigurieren: Dateipfad im File-Widget, Scatter-Plot-
 
 ---
 
+## 2026-04-19 — Cisco-Sicherheitsarchitektur ergänzt
+
+- `Cisco_Sicherheitsarchitektur.md` neu erstellt: Firepower, Stealthwatch, ASA; Überlastungsproblem bei DDoS; Traffic Triage; Vergleich Workshop-Konzept ↔ Stealthwatch; didaktische Anschlussfragen
+- `Workshop_Konzept.md`: Link auf neue Seite ergänzt
+- `Index.md`: neue Seite eingetragen
+
+---
+
 ## 2026-04-18 — ASCII-Diagramme durch Mermaid ersetzt
 
 - `On_Premise_Netzwerktopologie.md`: Netzwerktopologie → `graph TD` mit Angreifer/Opfer-Subgraphen

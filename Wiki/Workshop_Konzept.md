@@ -77,3 +77,4 @@ Empfohlener Subset für den Workshop:
 - [[Orange_Klassifikations_Workflow]]
 - [[Angriffsszenarien]]
 - [[On_Premise_Netzwerktopologie]]
+- [[Cisco_Sicherheitsarchitektur]]

@@ -27,3 +27,4 @@
 ## Angriffswissen
 
 - [[Angriffsszenarien]] — Alle Angriffstypen im CICIDS2017-Datensatz mit Erklärungen und Zeitplan
+- [[Cisco_Sicherheitsarchitektur]] — Cisco-Lösungen (Firepower, Stealthwatch) und Verbindung zum flow-basierten ML-Ansatz des Workshops
