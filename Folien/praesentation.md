@@ -43,9 +43,7 @@ arbeiten visuell. 90 Minuten, 6 Phasen.
 
 **Deep Packet Inspection (DPI)**
 
-Jedes Paket wird gegen eine\\
-\textbf{Signatur-Datenbank} geprüft –\\
-Header \emph{und} Payload.
+Jedes Paket wird gegen eine \textbf{Signatur-Datenbank} geprüft – Header \emph{und} Payload.
 :::
 
 ::: column
@@ -59,10 +57,12 @@ Header \emph{und} Payload.
   arr/.style={-{Stealth[length=3pt]}, gray!60, thin},
   atk/.style={-{Stealth[length=3pt]}, red!60, dashed, thin},
 ]
-% Angreifer
-\node[red box] (kali) at (0, 4.2) {Kali Linux};
-\node[red box] (win)  at (1.9, 4.2) {3× Windows};
-\node[red!60, font=\tiny] at (0.95, 4.75) {ANGREIFER};
+% Botnet (Angreifer)
+\node[red box, minimum width=1.1cm] (r1) at (-0.25, 4.2) {TP-Link};
+\node[red box, minimum width=1.1cm] (r2) at ( 0.95, 4.2) {TP-Link};
+\node[red box, minimum width=1.1cm] (r3) at ( 2.15, 4.2) {TP-Link};
+\node[red!60, font=\tiny] at (0.95, 4.75)
+  {BOTNET · 100\,000+ kompromittierte Router};
 
 % Firewall
 \node[gray box, minimum width=2.6cm] (fw) at (0.95, 3.2)
@@ -73,7 +73,7 @@ Header \emph{und} Payload.
   {Switch · Mirror-Port};
 
 % Opfernetz-Label
-\node[ALPBlau!70, font=\tiny] at (0.95, 1.85)
+\node[ALPBlau!70, font=\tiny, fill=white, inner sep=1pt] at (0.95, 2.0)
   {OPFERNETZWERK · 192.168.10.0/24};
 
 % Opfer
@@ -86,8 +86,9 @@ Header \emph{und} Payload.
 \draw[arr] (sw.south) -- ++(0, -0.25) -| (web.north);
 \draw[arr] (sw.south) -- (deb.north);
 \draw[arr] (sw.south) -- ++(0, -0.25) -| (cli.north);
-\draw[atk] (kali.south) -- (fw.north west);
-\draw[atk] (win.south)  -- (fw.north east);
+\draw[atk] (r1.south) -- (fw.north west);
+\draw[atk] (r2.south) -- (fw.north);
+\draw[atk] (r3.south) -- (fw.north east);
 \end{tikzpicture}
 :::
 
@@ -142,15 +143,16 @@ Jeder Flow $\rightarrow$ NGFW $\rightarrow$ DPI
 
 \medskip
 
+\begin{tabular}{@{}l@{}}
 Jeder Flow $\rightarrow$ \textbf{ML-Modell}\\
 \quad $\rightarrow$ eindeutig BENIGN $\rightarrow$ durchlassen\\
 \quad $\rightarrow$ eindeutig DDoS $\rightarrow$ blockieren\\
 \quad $\rightarrow$ unklar $\rightarrow$ NGFW $\rightarrow$ DPI
+\end{tabular}
 
 \bigskip
 
-\small\textit{Nur noch 10–20\,\% des Traffics\\
-erreicht die DPI-Stufe.}
+\small\textit{Nur noch 10–20\,\% des Traffics erreicht die DPI-Stufe.}
 :::
 
 ::: column
@@ -218,18 +220,64 @@ Kein manuelles Signatur-Update.
 
 ::::
 
-\bigskip
-
-\begin{alertblock}{Der Unterschied im Kern}
-GOFA: Mensch $\rightarrow$ Regeln $\rightarrow$ Ergebnisse \hfill
-ML: Daten + Ergebnisse $\rightarrow$ Maschine $\rightarrow$ Regeln
-\end{alertblock}
-
 ::: notes
 Diagramm aus MaschinellesLernen.drawio.svg erklären.
 GOFA: Experten-Wissen kodiert in handgeschriebenen Regeln.
 ML: Das System „sieht" Tausende Beispiele und findet selbst die Grenzen.
 „Signatur-Updates bei Cisco – das ist GOFA. Was wir heute bauen, ist ML."
+:::
+
+## Der Unterschied im Kern
+
+:::: columns
+
+::: column
+**Good Old-Fashioned AI**
+
+\bigskip
+
+\begin{enumerate}
+\item Experte analysiert Angriffs\-muster
+\item Experte schreibt Regel: \texttt{if SYN > 1000 $\rightarrow$ BLOCK}
+\item Regel wird deployed
+\item Neuer Angriff $\rightarrow$ zurück zu Schritt 1
+\end{enumerate}
+
+\bigskip
+
+\small\textit{Cisco IPS: täglich neue Signaturen. Jede Regel ist handgemacht.}
+:::
+
+::: column
+**Machine Learning**
+
+\bigskip
+
+\begin{enumerate}
+\item Trainingsdaten sammeln (Flows + Labels)
+\item Algorithmus analysiert Muster \textbf{selbst}
+\item Modell generiert Regeln automatisch
+\item Neuer Angriff $\rightarrow$ neue Daten genügen
+\end{enumerate}
+
+\bigskip
+
+\small\textit{Kein manuelles Signatur-Update. Das Modell lernt neu.}
+:::
+
+::::
+
+\begin{alertblock}{Die Kernformel}
+GOFA: Mensch $\rightarrow$ Regeln $\rightarrow$ Ergebnisse\quad|\quad
+ML: Daten + Ergebnisse $\rightarrow$ Maschine $\rightarrow$ Regeln
+\end{alertblock}
+
+::: notes
+Diese Folie ist der konzeptuelle Kern des Workshops.
+Betonen: „Bei GOFA ist der Mensch der Flaschenhals – Experten sind teuer und langsam.
+Bei ML ist der Flaschenhals die Datenqualität – aber die haben wir."
+Signatur-Updates: jede neue Malware braucht einen Experten + Deployment-Zyklus.
+ML: Neue Trainingsdaten sammeln, Modell neu trainieren – fertig.
 :::
 
 ## Lernziele
@@ -260,7 +308,7 @@ Univ. of New Brunswick
 
 - Montag (BENIGN) + Freitag (DDoS)
 - 10 000 Flows, 11 Features
-- Datei: `workshop_ids.csv`
+- Datei: `workshop_ids.tab`
 :::
 
 ::: column
@@ -353,9 +401,7 @@ Cisco-Troubleshooting-Leitfäden funktionieren genauso:
 
 \bigskip
 
-**Ein Entscheidungsbaum ist genau das –\\
-nur findet das Modell die Fragen\\
-selbst, aus den Trainingsdaten.**
+**Ein Entscheidungsbaum ist genau das – nur findet das Modell die Fragen selbst, aus den Trainingsdaten.**
 :::
 
 ::: column
@@ -371,8 +417,8 @@ selbst, aus den Trainingsdaten.**
 \medskip
 
 \footnotesize
-Trainingsphase: Modell sieht 7\,000 Flows mit\\
-bekannten Labels und findet die besten Fragen.\\[4pt]
+Trainingsphase: Modell sieht 7\,000 Flows mit bekannten Labels und findet die besten Fragen.
+
 Testphase: 3\,000 neue Flows – kein Label bekannt.
 :::
 
@@ -394,7 +440,7 @@ Data Sampler erklären: 70/30-Split. Dann Tree + Tree Viewer verbinden.
 ::: notes
 Erste Verzweigung laut vorlesen: „Wenn fl_byt_s > X, dann sehr wahrscheinlich
 DDoS." Frage: „Ergibt das für euch Sinn?" $\rightarrow$ Ja, DDoS-Flows transportieren
-große HTTP-Requests (LOIT). Dann: Knoten anklicken $\rightarrow$ Punkte im Scatter Plot
+große HTTP-Requests (LOIC). Dann: Knoten anklicken $\rightarrow$ Punkte im Scatter Plot
 leuchten auf.
 :::
 
@@ -471,10 +517,12 @@ Accuracy zeigen. Dann die kritische Frage stellen.
 \bigskip
 
 \footnotesize
-**TP** True Positive\\
-**FN** False Negative\\
-**FP** False Positive\\
-**TN** True Negative
+\begin{tabular}{@{}ll@{}}
+\textbf{TP} & True Positive\\
+\textbf{FN} & False Negative\\
+\textbf{FP} & False Positive\\
+\textbf{TN} & True Negative
+\end{tabular}
 :::
 
 ::::
@@ -529,59 +577,180 @@ Diskussionsfragen: „Wie viele False Positives sind tolerierbar?" –
 
 # Modellvergleich
 
-## Drei Modelle – drei Ideen
+## Entscheidungsbaum – Flowchart-Logik
 
-\begin{columns}[T]
-\begin{column}{0.32\textwidth}
-\begin{block}{Entscheidungsbaum}
-\textbf{Flowchart-Logik}
+:::: columns
 
-\medskip
+::: column
+**Position im Vergleich**
+
+\bigskip
+
+\begin{tabular}{@{}ll@{}}
+Accuracy  & ca.\ 97--98\,\% \\[4pt]
+Regeln    & \textbf{lesbar}, verteidigbar \\[4pt]
+Training  & schnell \\[4pt]
+Vorfilter & \textbf{Ja} \\
+\end{tabular}
+
+\bigskip
+
+\begin{block}{Kernregel aus unseren Daten}
 \small
-Das Modell stellt Ja/Nein-Fra\-gen zu den Mess\-werten.
-Die Regeln sind lesbar wie ein Trou\-ble\-shooting-Leit\-faden.
-
-\medskip
-\textit{„Wenn Flow Bytes/s > 45\,000\\
-$\rightarrow$ DDoS"}
+\texttt{Flow Bytes/s > 45\,000?}\\[2pt]
+\hspace*{4mm}Ja $\rightarrow$ \textbf{DDoS} (99\,\%)
 \end{block}
-\end{column}
-\begin{column}{0.32\textwidth}
-\begin{block}{Random Forest}
-\textbf{Komitee-Entscheid}
+
+\small\textit{Zwei Fragen reichen für 98\,\% Genauigkeit.}
+:::
+
+::: column
+**Warum für den Einstieg ideal**
 
 \medskip
-\small
-100 unabhängige Bäume, jeder auf einem anderen Daten-Aus\-schnitt trainiert.
-Die Mehr\-heit ent\-schei\-det.
 
-\medskip
-\textit{„87 von 100 Bäumen\\
-sagen DDoS $\rightarrow$ DDoS"}
-\end{block}
-\end{column}
-\begin{column}{0.32\textwidth}
-\begin{block}{k-Nearest Neighbors}
-\textbf{Ähnlichkeits-Suche}
+\begin{itemize}
+\item Regeln sind lesbar wie ein Troubleshooting-Leitfaden
+\item Jede Entscheidung ist nachvollziehbar und erklärbar
+\item Kann einem Vorgesetzten oder Schüler gezeigt werden
+\end{itemize}
 
-\medskip
-\small
-Kein Training nötig. Für jeden neuen Flow: Suche die 5 ähn\-lich\-sten bekann\-ten Flows.
-Was sind die?
+\bigskip
 
-\medskip
-\textit{„4 von 5 Nachbarn\\
-sind DDoS $\rightarrow$ DDoS"}
-\end{block}
-\end{column}
-\end{columns}
+\begin{alertblock}{Explainable AI}
+Im Schulnetz und im echten Betrieb gilt:\\
+Wir müssen erklären können, \textbf{warum} das Modell blockt.\\
+Der Entscheidungsbaum kann das – Random Forest nicht.
+\end{alertblock}
+:::
+
+::::
 
 ::: notes
-Jede Analogie kurz in eigenen Worten erklären:
-Entscheidungsbaum: „Der Cisco-Flowchart, den ihr alle kennt – aber automatisch gelernt."
-Random Forest: „Statt einem Experten befragt ihr 100 – und nehmt den Mehrheitsentscheid."
-kNN: „Ihr zeigt dem System einen neuen Flow und fragt: Welche 5 bekannten Fälle
-sehen dem am ähnlichsten aus? Und was waren die?"
+Übergang zum Vergleich: „Den Baum kennt ihr schon – ihr habt ihn im Tree Viewer gesehen.
+Jetzt schauen wir, was passiert, wenn wir statt einem Baum 100 nehmen."
+Betonen: Die 2-Fragen-Regel ist kein Zufall – das Modell hat das aus den Daten gelernt.
+:::
+
+## Random Forest – das Komitee
+
+:::: columns
+
+::: column
+**Das Prinzip**
+
+\medskip
+
+Nicht ein Baum, sondern \textbf{100 unabhängige Bäume}.
+
+\bigskip
+
+\begin{enumerate}
+\item Jeder Baum trainiert auf einem \textbf{zufälligen Ausschnitt} der Daten (Bootstrap)
+\item Bei jeder Verzweigung: zufällige Auswahl der Features
+\item Alle 100 Bäume stimmen ab – \textbf{Mehrheit entscheidet}
+\end{enumerate}
+
+\bigskip
+
+\small\textit{„87 von 100 Bäumen sagen DDoS $\rightarrow$ DDoS"}
+:::
+
+::: column
+**Warum besser als ein einzelner Baum?**
+
+\medskip
+
+Ein einzelner Baum kann überanpassen.\\
+100 Bäume gleichen Fehler aus.
+
+\bigskip
+
+\begin{block}{Vergleich}
+\small
+\begin{tabular}{@{}ll@{}}
+Entscheidungsbaum & ca.\ 98\,\% Accuracy\\
+Random Forest     & ca.\ 99\,\% Accuracy\\
+\end{tabular}
+\end{block}
+
+\bigskip
+
+\begin{alertblock}{Nachteil}
+\small
+100 Bäume $\rightarrow$ keine lesbaren Regeln mehr.\\
+\textbf{Black Box:} Wir sehen das Ergebnis, nicht den Weg.
+\end{alertblock}
+:::
+
+::::
+
+::: notes
+Analogie: „Statt einen Experten zu fragen, befragt ihr 100 unabhängige Experten
+und nehmt den Mehrheitsentscheid. Keiner kennt alle Daten – jeder nur einen Ausschnitt.
+Das macht das Komitee robuster als jeder Einzelne."
+„Random" kommt von der zufälligen Feature-Auswahl bei jedem Split – nicht vom Ergebnis.
+In Orange: Random Forest mit Test and Score verbinden, Accuracy mit Tree vergleichen.
+:::
+
+## k-Nearest Neighbors – Ähnlichkeitssuche
+
+:::: columns
+
+::: column
+**Das Prinzip**
+
+\medskip
+
+kNN \textbf{trainiert gar nichts}.\\
+Es speichert alle 7\,000 Trainings-Flows.
+
+\bigskip
+
+\begin{enumerate}
+\item Neuer Flow kommt an
+\item Berechne Abstand zu allen 7\,000 bekannten Flows
+\item Finde die \textbf{5 ähnlichsten} (k=5)
+\item Mehrheitsklasse der 5 Nachbarn $\rightarrow$ Vorhersage
+\end{enumerate}
+
+\bigskip
+
+\small\textit{„4 von 5 Nachbarn sind DDoS $\rightarrow$ DDoS"}
+:::
+
+::: column
+**Das Problem in der Praxis**
+
+\bigskip
+
+\begin{alertblock}{Zu langsam für Leitungsgeschwindigkeit}
+\small
+Jeder neue Flow: Vergleich mit \textbf{allen} 7\,000 Beispielen.\\
+Bei 10\,000 Flows/Sekunde: nicht praxistauglich als Vorfilter.
+\end{alertblock}
+
+\bigskip
+
+\begin{block}{Aber nützlich für}
+\small
+\begin{itemize}
+\item Forensik: „Zeig mir ähnliche Fälle"
+\item Kleine Datenmengen offline analysieren
+\item Erklärung: Nachbarn sind sichtbar – teilweise nachvollziehbar
+\end{itemize}
+\end{block}
+:::
+
+::::
+
+::: notes
+kNN ist keine KI im klassischen Sinne – es gibt kein trainiertes Modell.
+Das System „denkt" bei jeder Anfrage neu nach.
+Analogie: „Ihr habt 7.000 beschriftete Netzwerk-Flows auf Karteikarten.
+Neuer Flow kommt: Ihr sucht die 5 ähnlichsten Karteikarten. Was steht drauf?"
+In Orange: kNN mit Test and Score verbinden. Accuracy zeigen. Dann erklären,
+warum kNN trotzdem kein guter Vorfilter ist.
 :::
 
 ## Drei Modelle im Vergleich
@@ -668,7 +837,7 @@ Materialien nennen: Handout, Datensatz, Workflow-Datei.
 
 | Datei | Inhalt |
 |-------|--------|
-| `workshop_ids.csv` | Datensatz (10 000 Flows, 11 Features) |
+| `workshop_ids.tab` | Datensatz (10 000 Flows, 11 Features) |
 | `workshop_workflow.ows` | Vorgefertigter Orange-Workflow |
 | `workshop_workflow_phase1.ows` | Nur Daten-Explorer (Phase 2) |
 | Handout (A4) | Kurzanleitung + Diskussionsfragen |

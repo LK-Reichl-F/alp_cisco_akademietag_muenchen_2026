@@ -39,7 +39,7 @@ flowchart TD
 - Zeilen filtern: nur Benign + DDoS behalten
 - Zufällig auf 5.000–10.000 Zeilen reduzieren (ausgeglichen)
 - Feature-Auswahl: 10 intuitive Features behalten (siehe [[CICFlowMeter_Features]])
-- Als `workshop_ids.csv` speichern
+- Als `workshop_ids.tab` speichern (Orange-natives Format, 3-Zeilen-Header)
 
 ---
 
@@ -47,7 +47,7 @@ flowchart TD
 
 ### Schritt 1: Datei laden
 **Widget**: `File`
-- CSV-Datei öffnen: `workshop_ids.csv`
+- Datei öffnen: `workshop_ids.tab`
 - Prüfen: richtige Anzahl Zeilen, richtige Spaltennamen
 
 **Lernziel**: Was sind „Daten" in Data Mining? Jede Zeile = ein Netzwerkflow.
@@ -109,11 +109,11 @@ quadrantChart
 
 ```mermaid
 graph TD
-    A{"fl_byt_s > 1.234.567?"}
-    A -->|Ja| B["DDoS (95%)"]
-    A -->|Nein| C{"tot_fw_pk > 500?"}
-    C -->|Ja| D["DDoS (87%)"]
-    C -->|Nein| E["Benign (99%)"]
+    A{"Flow Bytes/s > 45000?"}
+    A -->|Ja| B["DDoS (99%)"]
+    A -->|Nein| C{"Down/Up Ratio > 0.1?"}
+    C -->|Ja| D["BENIGN (98%)"]
+    C -->|Nein| E["DDoS (94%)"]
 ```
 
 **Lernziel**: KI = erlernbare Regeln. Der Baum ist erklärbar, nicht magisch.

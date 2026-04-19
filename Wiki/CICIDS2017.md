@@ -67,7 +67,7 @@ Vollständige Liste: [[CICFlowMeter_Features]]
 
 ## Workshop-Subset (erstellt, bereit)
 
-Datei: `Datensätze/workshop_ids.csv`
+Datei: `Datensätze/workshop_ids.tab`
 
 - **Klassen**: BENIGN (5.000 Zeilen, Montag) + DDoS (5.000 Zeilen, Freitag Nachmittag)
 - **Gesamt**: 10.000 Zeilen, zufällig gemischt (seed=42, reproduzierbar)

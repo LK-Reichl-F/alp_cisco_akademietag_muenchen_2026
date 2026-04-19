@@ -11,14 +11,12 @@
             "id": "0dfef64c77e17c66",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Quellen/Orange Data Mining.md",
-                "mode": "source",
-                "source": false
+                "file": "Folien/praesentation.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Orange Data Mining"
+              "icon": "lucide-file-text",
+              "title": "praesentation"
             }
           }
         ]
@@ -185,17 +183,18 @@
   },
   "active": "0dfef64c77e17c66",
   "lastOpenFiles": [
-    "Wiki/Log.md.tmp.6173.1776591993467",
-    "Folien/praesentation.md.tmp.6173.1776591950604",
-    "Folien/praesentation.md.tmp.6173.1776591945950",
-    "Folien/praesentation.md.tmp.6173.1776591600675",
-    "Folien/praesentation.md.tmp.6173.1776591572296",
-    "Folien/praesentation.md.tmp.6173.1776591503205",
-    "Folien/handout.tex.tmp.6173.1776591486614",
-    "Folien/handout.tex.tmp.6173.1776591253028",
-    "Folien/handout.tex.tmp.6173.1776591247466",
-    "Folien/praesentation.md.tmp.6173.1776591232608",
-    "Folien/praesentation.md.tmp.6173.1776591162138",
+    "Wiki/Log.md.tmp.6173.1776602009075",
+    "Folien/praesentation.md.tmp.6173.1776601981206",
+    "Wiki/Orange_Klassifikations_Workflow.md.tmp.6173.1776601958591",
+    "Wiki/Workshop_Arbeitsplan.md.tmp.6173.1776601951959",
+    "Wiki/Workshop_Arbeitsplan.md.tmp.6173.1776601936592",
+    "Wiki/Workshop_Handout.md.tmp.6173.1776601929135",
+    "Wiki/Workshop_Handout.md.tmp.6173.1776601929076",
+    "Wiki/Log.md.tmp.6173.1776594067891",
+    "Wiki/Orange_Klassifikations_Workflow.md.tmp.6173.1776593964528",
+    "Wiki/Workshop_Arbeitsplan.md.tmp.6173.1776593958363",
+    "Wiki/Workshop_Arbeitsplan.md.tmp.6173.1776593958300",
+    "Quellen/Orange Data Mining.md",
     "Quellen/kNN Orange.md",
     "Quellen/Random Forest Orange.md",
     "Quellen/Entscheidungsbaum in Orange.md",
@@ -229,7 +228,6 @@
     "Wiki/Angriffsszenarien.md",
     "Wiki/Log.md",
     "Wiki/CICIDS2017.md",
-    "Quellen/BETH Dataset.md",
-    "Quellen/IDS 2018  Datasets  Research  Canadian Institute for Cybersecurity.md"
+    "Quellen/BETH Dataset.md"
   ]
 }

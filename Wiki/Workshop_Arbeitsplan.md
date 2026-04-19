@@ -25,10 +25,10 @@
 
 Die Teilnehmer können nach dem Workshop…
 
-1. **erklären**, was Data Mining und maschinelles Lernen bedeuten (konzeptuell, ohne Formeln)
+1. **erklären**, wie ML-Vorfilterung Cisco-Geräte bei DDoS entlasten kann
 2. **beschreiben**, wie ein Entscheidungsbaum Netzwerktraffic klassifiziert
 3. **beurteilen**, was Accuracy, False Positives und False Negatives im IDS-Kontext bedeuten
-4. **einschätzen**, was der Unterschied zwischen einem interpretierbaren und einem Black-Box-Modell ist
+4. **einschätzen**, was den Unterschied zwischen einem interpretierbaren und einem Black-Box-Modell ausmacht
 5. **Orange Data Mining** für einen einfachen Klassifikations-Workflow nutzen
 
 ---
@@ -69,7 +69,7 @@ Die Teilnehmer können nach dem Workshop…
 
 | Material | Menge | Hinweis |
 |---|---|---|
-| `workshop_ids.csv` | 1× je Rechner | Datensatz-Subset |
+| `workshop_ids.tab` | 1× je Rechner | Datensatz-Subset |
 | `workshop_workflow.ows` | 1× je Rechner | Vorgefertigter Orange-Workflow |
 | Handout | 1× je TN | Kurzanleitung + Diskussionsfragen |
 | Beamer/Projektor | 1× | Für Live-Demo |
@@ -85,14 +85,14 @@ Die Teilnehmer können nach dem Workshop…
 
 | Minute | Trainer-Handlung | Teilnehmer-Aktivität | Medium |
 |---|---|---|---|
-| 0–3 | Begrüßung. Szenario einführen: Netzwerkdiagramm zeigen. „Das ist euer Netzwerk. Letzte Woche ist einiges passiert." | Zuhören, Netzwerk identifizieren | Projektor: Netzwerkdiagramm |
-| 3–7 | Angriffswoche beschreiben (Mo = normal, Di–Fr = Angriffe). Frage stellen: „Wie würdet ihr das klassisch erkennen? Und was, wenn 10.000 Flows pro Sekunde kommen?" | Antworten, diskutieren | Mündlich |
-| 7–10 | Überleitung: „Genau das macht KI – und wir schauen heute, wie." Lernziele nennen. Ablauf vorstellen. | Zuhören | Projektor: Folie mit Ablauf |
+| 0–3 | Begrüßung. Netzwerkdiagramm zeigen: Cisco NGFW schützt das Netzwerk über DPI. Frage: „Was passiert bei 100.000 Flows/Sekunde?" | Zuhören, Netzwerk identifizieren | Projektor: Netzwerkdiagramm |
+| 3–7 | Überlastungskette erklären: DDoS → CPU 100 % → Alert Fatigue → echter Angriff unbemerkt. Idee vorstellen: ML-Modell als Vorfilter vor der DPI-Stufe. | Antworten, diskutieren | Projektor: Folie „Das Problem" |
+| 7–10 | GOFA vs. ML: Signatur-Update täglich vs. Modell lernt aus Daten. Lernziele nennen. Ablauf vorstellen. | Zuhören | Projektor: Folien „Regelbasiert vs. ML" + „Lernziele" |
 
 **Leitfragen für den Einstieg:**
-- „Wie viele von euch haben schon von Machine Learning gehört?"
-- „Was glaubt ihr: Kann ein Algorithmus einen DDoS-Angriff erkennen, ohne den Payload zu lesen?"
-- „Was wäre der Vorteil gegenüber klassischer Signaturerkennung?"
+- „Kennt ihr das Problem: zu viele Alarme, keiner schaut mehr hin?"
+- „Kann ein Algorithmus einen DDoS-Angriff erkennen, ohne den Payload zu lesen?"
+- „Was wäre der Vorteil gegenüber täglich aktualisierten Signaturen?"
 
 ---
 
@@ -102,12 +102,12 @@ Die Teilnehmer können nach dem Workshop…
 
 | Minute | Trainer-Handlung | Teilnehmer-Aktivität | Medium / Widget |
 |---|---|---|---|
-| 10–12 | Orange öffnen. `workshop_workflow_phase1.ows` laden (nur File + Data Table + Scatter Plot). `workshop_ids.csv` einlesen. | Gleiche Datei auf eigenem Rechner laden | Orange: **File** |
+| 10–12 | Orange öffnen. `workshop_workflow_phase1.ows` laden (nur File + Data Table + Scatter Plot). `workshop_ids.tab` einlesen. | Gleiche Datei auf eigenem Rechner laden | Orange: **File** |
 | 12–15 | Data Table öffnen. Erklären: „Jede Zeile ist ein Netzwerkflow. Was bedeutet `tot_fw_pk`? Was bedeutet `Label`?" Durch Spalten scrollen, Werte zeigen. | Eigene Data Table ansehen, Fragen stellen | Orange: **Data Table** |
 | 15–20 | Scatter Plot öffnen. X = `Packet Length Mean`, Y = `Down/Up Ratio`, Farbe = `Label`. Ergebnis zeigen lassen. | Gleiche Einstellungen vornehmen, Ergebnis beobachten | Orange: **Scatter Plot** |
 | 20–25 | Diskussion: „Was seht ihr?" → Zwei Cluster. „Was bedeutet `Down/Up Ratio = 0`?" → Opfer antwortet nicht mehr. „Was könnte ein Algorithmus damit machen?" | Beobachten, antworten, Fragen stellen | Mündlich |
 
-**Erwartetes Ergebnis im Scatter Plot** (aus echten Daten `workshop_ids.csv`):
+**Erwartetes Ergebnis im Scatter Plot** (aus echten Daten `workshop_ids.tab`):
 ```
 Down/Up Ratio
     1.0  │  · · · Benign   (kleine Pakete ø 60 Byte, Antworten kommen zurück)

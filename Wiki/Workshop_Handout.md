@@ -4,7 +4,7 @@
 
 **Quellen**: (Quelle: [[Workshop_Arbeitsplan.md]]), (Quelle: [[Orange_Klassifikations_Workflow.md]])
 
-**Zuletzt aktualisiert**: 2026-04-16
+**Zuletzt aktualisiert**: 2026-04-19
 
 ---
 
@@ -25,12 +25,16 @@
 
 ## Das Szenario
 
-Ein Unternehmensnetzwerk wurde eine Woche lang überwacht. Der Netzwerkverkehr wurde als **Flows** aufgezeichnet – jeder Flow beschreibt eine Verbindung mit statistischen Merkmalen (Paketanzahl, Bytes/s, Flags, …).
+Ein Unternehmensnetzwerk ist durch eine **Cisco NGFW** (Next-Generation Firewall) geschützt. Sie analysiert jeden Paket-Header gegen eine Signatur-Datenbank – *Deep Packet Inspection* (DPI).
 
-**Montag**: normaler Betrieb
-**Freitag Nachmittag**: DDoS-Angriff mit LOIC (Low Orbit Ion Cannon)
+**Das Problem:** Bei einem DDoS-Angriff treffen Tausende Flows/Sekunde ein. Die NGFW-CPU steigt auf 100 %, Alarme häufen sich, Administratoren ignorieren sie (*Alert Fatigue*) – und der echte Angriff bleibt unbemerkt.
 
-**Unsere Aufgabe**: Kann ein KI-Modell normale Flows von Angriffs-Flows unterscheiden?
+**Die Idee:** Ein einfaches ML-Modell filtert bösartigen Traffic *vor* der DPI-Stufe – anhand statistischer Flow-Merkmale, ohne Payload-Inspektion.
+
+**Unser Datensatz:** 10.000 Flows aus CICIDS2017 (Univ. New Brunswick):
+5.000 BENIGN (normaler Betrieb) + 5.000 DDoS (LOIC-HTTP-Angriff).
+
+**Unsere Aufgabe:** Ein ML-Modell trainieren, das BENIGN und DDoS zuverlässig trennt.
 
 ---
 

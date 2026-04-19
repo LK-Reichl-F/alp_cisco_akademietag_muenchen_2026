@@ -19,7 +19,10 @@
       "Bash(pandoc praesentation.md -o praesentation.pdf --to beamer --pdf-engine=lualatex)",
       "Bash(grep -v \"^$\")",
       "Bash(grep -E \"[A-Za-zÄÖÜäöü]{4,}\")",
-      "Bash(wait)"
+      "Bash(wait)",
+      "Bash(pdfinfo praesentation.pdf)",
+      "Bash(lualatex handout.tex)",
+      "Bash(echo \"Exit: $?\")"
     ]
   }
 }

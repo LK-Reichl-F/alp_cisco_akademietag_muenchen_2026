@@ -4,6 +4,39 @@ Unveränderliches Protokoll aller Wiki-Operationen.
 
 ---
 
+## 2026-04-19 — Nachzügler nach Konsistenzprüfung bereinigt
+
+**`Workshop_Handout.md`**: „Das Szenario" auf neue Rahmen-Story aktualisiert (Cisco NGFW, DDoS-Überlastungskette, ML als Vorfilter). Datum auf 2026-04-19 gesetzt.
+
+**`Workshop_Arbeitsplan.md`**: Lernziel 1 auf „ML-Vorfilterung Cisco-Geräte entlasten" aktualisiert. Phase-1-Verlaufsplan auf neue Narrativ (Überlastungskette, GOFA vs. ML) umgestellt.
+
+**`Orange_Klassifikations_Workflow.md`**: Beispielbaum-Feature-Namen korrigiert (`fl_byt_s` → `Flow Bytes/s`, `tot_fw_pk` → `Down/Up Ratio`); Werte konsistent mit Präsentation (`> 45.000`).
+
+**`praesentation.md`** – Folie „Entscheidungsbaum – Flowchart-Logik" (Modellvergleich): Duplikation des Beispielbaums entfernt. Folie zeigt jetzt Positionstabelle (Accuracy, Lesbarkeit, Vorfilter) + Kernregel-Kurzform + Vergleich zu Random Forest statt Wiederholung der früheren Erklärungsfolie.
+
+---
+
+## 2026-04-19 — Konsistenzprüfung aller Artefakte
+
+**Behobene Fehler:**
+- `workshop_ids.csv` → `workshop_ids.tab` in: `praesentation.md` (2×), `Workshop_Arbeitsplan.md` (3×), `Orange_Klassifikations_Workflow.md` (2×), `CICIDS2017.md` (1×)
+- `LOIT` → `LOIC` in: `praesentation.md` (Notes), `handout.tex`
+
+**Neue Folien in `praesentation.md`:**
+- Folie „Der Unterschied im Kern": 4-Schritte-Prozess GOFA vs. ML, Kernformel-Alertblock (ersetzt den überlaufenden Alertblock am Ende von „Regelbasiert vs. maschinell lernen")
+- Folie „Entscheidungsbaum – Flowchart-Logik": Wiederholung im Modellvergleich (bewusste Redundanz für didaktischen Bogen)
+- Folie „Random Forest – das Komitee": Bootstrap, Voting, Black-Box-Nachteil
+- Folie „k-Nearest Neighbors – Ähnlichkeitssuche": Kein Training, Latenz-Problem, Forensik-Nutzen
+- Präsentation: 33 Folien (vorher 28)
+
+**Verbleibende bekannte Inkonsistenzen (offen, s. u.):**
+- `Workshop_Handout.md` (Wiki) und `Workshop_Arbeitsplan.md` Phase 1 spiegeln noch die alte Narrativ vor der Rahmen-Story-Revision wider
+- `Workshop_Arbeitsplan.md` Lernziel 1 noch nicht auf neue Formulierung aktualisiert
+- `Orange_Klassifikations_Workflow.md` Beispielbaum nutzt noch alte kurze Feature-Namen (`fl_byt_s`, `tot_fw_pk`)
+- `LOIT` als Angriffsname (kein Tool-Name) verbleibt in mehreren Wiki-Dateien (`Angriffsszenarien.md`, `CICIDS2017.md`, `On_Premise_Netzwerktopologie.md`, `Workshop_Konzept.md`, `Cisco_Sicherheitsarchitektur.md`) — Konsens: „DDoS LOIT" ist etablierter Kurzname im Datensatz-Kontext
+
+---
+
 ## 2026-04-19 — Algorithmen-Erklärungen ergänzt
 
 Neue Quellen eingepflegt: `Entscheidungsbaum in Orange.md`, `Random Forest Orange.md`, `kNN Orange.md`.
