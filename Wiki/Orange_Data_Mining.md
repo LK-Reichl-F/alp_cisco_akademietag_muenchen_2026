@@ -2,7 +2,7 @@
 
 **Zusammenfassung**: Orange ist ein visuelles, flow-basiertes Data-Mining-Tool der Universität Ljubljana. Widgets werden per Drag-and-Drop verbunden – kein Programmieren erforderlich.
 
-**Quellen**: (Quelle: [[Orange Data Mining.md]]), (Quelle: [[Examples.md]]), (Quelle: [[Widget Catalog.md]])
+**Quellen**: (Quelle: [[Orange Data Mining]]), (Quelle: [[Examples.md]]), (Quelle: [[Widget Catalog.md]])
 
 **Zuletzt aktualisiert**: 2026-04-16
 
@@ -78,7 +78,7 @@ Grundlegender Einstieg: Daten laden, anschauen, visualisieren.
 `File → Tree → Tree Viewer`
 `File → Tree → Scatter Plot` (Auswahl im Baum → Hervorhebung im Plot)
 Interaktiver Klassifikationsbaum-Browser – ideal für den Workshop.
-(Quelle: [[Orange Data Mining.md]])
+(Quelle: [[Orange Data Mining]])
 
 ### 3. Train/Test-Split
 `File → Data Sampler → Tree → Test and Score`
@@ -93,7 +93,7 @@ Mehrere Klassifikatoren auf einmal vergleichen.
 ### 5. Confusion Matrix mit Scatter Plot
 `File → Test and Score → Confusion Matrix → Scatter Plot`
 Fehlklassifizierungen auswählen und im Scatter Plot hervorheben.
-(Quelle: [[Orange Data Mining.md]])
+(Quelle: [[Orange Data Mining]])
 
 ## Weitere Widget-Kategorien (nicht im Workshop, aber erwähnenswert)
 

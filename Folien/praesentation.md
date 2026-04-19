@@ -134,7 +134,7 @@ vorsortiert? Die NGFW müsste nur noch den Rest prüfen."
 
 \medskip
 
-Jeder Flow → NGFW → DPI
+Jeder Flow $\rightarrow$ NGFW $\rightarrow$ DPI
 
 \bigskip
 
@@ -142,7 +142,7 @@ Jeder Flow → NGFW → DPI
 
 \medskip
 
-Jeder Flow → \textbf{ML-Modell}\\
+Jeder Flow $\rightarrow$ \textbf{ML-Modell}\\
 \quad $\rightarrow$ eindeutig BENIGN $\rightarrow$ durchlassen\\
 \quad $\rightarrow$ eindeutig DDoS $\rightarrow$ blockieren\\
 \quad $\rightarrow$ unklar $\rightarrow$ NGFW $\rightarrow$ DPI
@@ -165,7 +165,7 @@ Das ist schnell genug für Leitungsgeschwindigkeit.
 
 \begin{block}{Heute bauen wir genau das}
 Ein einfacher \textbf{Entscheidungsbaum}
-mit 2–3 Regeln erreicht $\sim$98\,\% Genauigkeit.
+mit 2–3 Regeln erreicht ca.\ 98\,\% Genauigkeit.
 \end{block}
 :::
 
@@ -187,8 +187,8 @@ Betonen: kein Payload, keine Entschlüsselung nötig – das ist der Clou.
 
 \medskip
 
-\texttt{if SYN\_count > 1000 → BLOCK}\\
-\texttt{if payload contains "exploit" → ALERT}
+\texttt{if SYN\_count > 1000 $\rightarrow$ BLOCK}\\
+\texttt{if payload contains "exploit" $\rightarrow$ ALERT}
 
 \medskip
 
@@ -204,8 +204,8 @@ Cisco-IPS: täglich neue Signaturen nötig.
 
 \medskip
 
-Beispiele mit bekannten Labels →\\
-Modell erkennt Muster selbst →\\
+Beispiele mit bekannten Labels $\rightarrow$\\
+Modell erkennt Muster selbst $\rightarrow$\\
 Regeln entstehen automatisch
 
 \medskip
@@ -221,8 +221,8 @@ Kein manuelles Signatur-Update.
 \bigskip
 
 \begin{alertblock}{Der Unterschied im Kern}
-GOFA: Mensch → Regeln → Ergebnisse \hfill
-ML: Daten + Ergebnisse → Maschine → Regeln
+GOFA: Mensch $\rightarrow$ Regeln $\rightarrow$ Ergebnisse \hfill
+ML: Daten + Ergebnisse $\rightarrow$ Maschine $\rightarrow$ Regeln
 \end{alertblock}
 
 ::: notes
@@ -323,7 +323,7 @@ Durch Spalten scrollen, Werte zeigen, insb. Label-Spalte.
 ::: notes
 Erwartetes Bild: Zwei klar getrennte Cluster. BENIGN: kleine Pakete (~60 Byte),
 down_up_ratio > 0. DDoS: große HTTP-Pakete (~833 Byte), down_up_ratio ≈ 0.
-„Warum ist die Antwort-Quote beim DDoS null?" → Server so überlastet, keine
+„Warum ist die Antwort-Quote beim DDoS null?" $\rightarrow$ Server so überlastet, keine
 Antwort. Das kennen alle Cisco-Lehrkräfte.
 :::
 
@@ -341,34 +341,48 @@ Genau diese Struktur \textbf{lernt} ein KI-Modell.
 :::: columns
 
 ::: column
-**Idee**
+**Kennt ihr das?**
 
-Das Modell stellt **Ja/Nein-Fragen** zu den Daten und trifft dann eine Entscheidung.
+\medskip
+
+Cisco-Troubleshooting-Leitfäden funktionieren genauso:
+
+\smallskip
+\textit{„Leuchtet die Link-LED? $\rightarrow$ Nein $\rightarrow$ Kabel prüfen."}\\
+\textit{„Ping möglich? $\rightarrow$ Ja $\rightarrow$ Layer-3-Problem."}
 
 \bigskip
 
-**Wie beim Lernen für eine Prüfung:**
-
-- Trainingsphase: Modell sieht Beispiele mit bekannten Labels
-- Testphase: Modell bewertet neue, unbekannte Flows
+**Ein Entscheidungsbaum ist genau das –\\
+nur findet das Modell die Fragen\\
+selbst, aus den Trainingsdaten.**
 :::
 
 ::: column
-```
-fl_byt_s > 45 000?
-├── Ja → DDoS (99 %)
-└── Nein
-    └── down_up_ratio > 0.1?
-        ├── Ja → BENIGN (98 %)
-        └── Nein → DDoS (94 %)
-```
+\small
+\begin{block}{Beispiel aus unseren Daten}
+\texttt{Flow Bytes/s > 45\,000?}\\[3pt]
+\hspace*{4mm}Ja $\rightarrow$ DDoS (99\,\%)\\[3pt]
+\hspace*{4mm}Nein $\rightarrow$ \texttt{Down/Up Ratio > 0.1?}\\[3pt]
+\hspace*{12mm}Ja $\rightarrow$ BENIGN (98\,\%)\\[3pt]
+\hspace*{12mm}Nein $\rightarrow$ DDoS (94\,\%)
+\end{block}
+
+\medskip
+
+\footnotesize
+Trainingsphase: Modell sieht 7\,000 Flows mit\\
+bekannten Labels und findet die besten Fragen.\\[4pt]
+Testphase: 3\,000 neue Flows – kein Label bekannt.
 :::
 
 ::::
 
 ::: notes
-Data Sampler erklären: Trainings- und Testdaten trennen. Tree-Widget mit Data
-Sampler verbinden, trainieren lassen. Dann Tree Viewer öffnen.
+Analogie betonen: „Das ist euer Cisco-Troubleshooting-Flowchart – aber automatisch
+generiert. Das Modell hat aus 7.000 Beispielen gelernt, welche Frage an welcher
+Stelle am meisten Flows korrekt trennt."
+Data Sampler erklären: 70/30-Split. Dann Tree + Tree Viewer verbinden.
 :::
 
 ## Der Entscheidungsbaum in Orange
@@ -379,8 +393,8 @@ Sampler verbinden, trainieren lassen. Dann Tree Viewer öffnen.
 
 ::: notes
 Erste Verzweigung laut vorlesen: „Wenn fl_byt_s > X, dann sehr wahrscheinlich
-DDoS." Frage: „Ergibt das für euch Sinn?" → Ja, DDoS-Flows transportieren
-große HTTP-Requests (LOIT). Dann: Knoten anklicken → Punkte im Scatter Plot
+DDoS." Frage: „Ergibt das für euch Sinn?" $\rightarrow$ Ja, DDoS-Flows transportieren
+große HTTP-Requests (LOIT). Dann: Knoten anklicken $\rightarrow$ Punkte im Scatter Plot
 leuchten auf.
 :::
 
@@ -393,8 +407,8 @@ das System einen Alarm auslöst.
 \end{block}
 
 ::: notes
-„Was ist KI?" → Kein Zaubern. Gelernte Entscheidungsregeln auf Basis von
-Statistik. „Kann jeder diese Regeln verstehen?" → Ja, der Baum ist lesbar.
+„Was ist KI?" $\rightarrow$ Kein Zaubern. Gelernte Entscheidungsregeln auf Basis von
+Statistik. „Kann jeder diese Regeln verstehen?" $\rightarrow$ Ja, der Baum ist lesbar.
 :::
 
 # Modellbewertung
@@ -466,8 +480,8 @@ Accuracy zeigen. Dann die kritische Frage stellen.
 ::::
 
 ::: notes
-Vier Felder beschriften. Dann: False Positives in der Matrix auswählen →
-Scatter Plot zeigt diese Punkte. „Wo liegen sie?" → An der Klassengrenze.
+Vier Felder beschriften. Dann: False Positives in der Matrix auswählen $\rightarrow$
+Scatter Plot zeigt diese Punkte. „Wo liegen sie?" $\rightarrow$ An der Klassengrenze.
 :::
 
 ## Alert Fatigue – ein reales Problem
@@ -477,23 +491,23 @@ Scatter Plot zeigt diese Punkte. „Wo liegen sie?" → An der Klassengrenze.
 ::: column
 **False Positive**
 
-→ Fehlalarm im IDS
+$\rightarrow$ Fehlalarm im IDS
 
-→ Admins bearbeiten unnötige Tickets
+$\rightarrow$ Admins bearbeiten unnötige Tickets
 
-→ Admins ignorieren irgendwann Alarme
+$\rightarrow$ Admins ignorieren irgendwann Alarme
 
-→ **Echter Angriff wird übersehen**
+$\rightarrow$ **Echter Angriff wird übersehen**
 :::
 
 ::: column
 **False Negative**
 
-→ Angriff nicht erkannt
+$\rightarrow$ Angriff nicht erkannt
 
-→ Kein Alarm ausgelöst
+$\rightarrow$ Kein Alarm ausgelöst
 
-→ **Angreifer operiert unbemerkt**
+$\rightarrow$ **Angreifer operiert unbemerkt**
 
 \bigskip
 *Was ist schlimmer in eurem Netzwerk?*
@@ -515,18 +529,79 @@ Diskussionsfragen: „Wie viele False Positives sind tolerierbar?" –
 
 # Modellvergleich
 
-## Drei Modelle im Vergleich
+## Drei Modelle – drei Ideen
 
-| Modell | Accuracy | Interpretierbar? |
-|--------|----------|-----------------|
-| Entscheidungsbaum | ~97--98\,\% | ✅ Hoch |
-| Random Forest | ~99\,\% | ❌ Gering |
-| k-Nearest Neighbor | ~95--97\,\% | ⚠ Mittel |
+\begin{columns}[T]
+\begin{column}{0.32\textwidth}
+\begin{block}{Entscheidungsbaum}
+\textbf{Flowchart-Logik}
+
+\medskip
+\small
+Das Modell stellt Ja/Nein-Fra\-gen zu den Mess\-werten.
+Die Regeln sind lesbar wie ein Trou\-ble\-shooting-Leit\-faden.
+
+\medskip
+\textit{„Wenn Flow Bytes/s > 45\,000\\
+$\rightarrow$ DDoS"}
+\end{block}
+\end{column}
+\begin{column}{0.32\textwidth}
+\begin{block}{Random Forest}
+\textbf{Komitee-Entscheid}
+
+\medskip
+\small
+100 unabhängige Bäume, jeder auf einem anderen Daten-Aus\-schnitt trainiert.
+Die Mehr\-heit ent\-schei\-det.
+
+\medskip
+\textit{„87 von 100 Bäumen\\
+sagen DDoS $\rightarrow$ DDoS"}
+\end{block}
+\end{column}
+\begin{column}{0.32\textwidth}
+\begin{block}{k-Nearest Neighbors}
+\textbf{Ähnlichkeits-Suche}
+
+\medskip
+\small
+Kein Training nötig. Für jeden neuen Flow: Suche die 5 ähn\-lich\-sten bekann\-ten Flows.
+Was sind die?
+
+\medskip
+\textit{„4 von 5 Nachbarn\\
+sind DDoS $\rightarrow$ DDoS"}
+\end{block}
+\end{column}
+\end{columns}
 
 ::: notes
-Random Forest: „Viele Bäume abstimmen – wie ein Komitee." kNN: „Welche Klasse
-haben die ähnlichsten bekannten Fälle?" Beide Widgets mit Test and Score
-verbinden. Ergebnisse nebeneinander zeigen.
+Jede Analogie kurz in eigenen Worten erklären:
+Entscheidungsbaum: „Der Cisco-Flowchart, den ihr alle kennt – aber automatisch gelernt."
+Random Forest: „Statt einem Experten befragt ihr 100 – und nehmt den Mehrheitsentscheid."
+kNN: „Ihr zeigt dem System einen neuen Flow und fragt: Welche 5 bekannten Fälle
+sehen dem am ähnlichsten aus? Und was waren die?"
+:::
+
+## Drei Modelle im Vergleich
+
+\small
+| Modell | Accuracy | Regeln lesbar? | Als Vorfilter? |
+|--------|----------|---------------|----------------|
+| Entscheidungsbaum | ca. 97--98\,\% | **Ja** – jede Regel nachvollziehbar | Ja – erklärbar |
+| Random Forest | ca. 99\,\% | **Nein** – 100 Bäume, nicht lesbar | Ja – genauer |
+| kNN | ca. 95--97\,\% | Bedingt – Nachbarn zeigbar | Nein – zu langsam\textsuperscript{*} |
+
+\normalsize
+\medskip
+\footnotesize\textsuperscript{*}kNN speichert alle Trainingsdaten – jede Vorhersage erfordert einen Vergleich mit allen 7\,000 Beispielen.
+
+::: notes
+Beide Widgets (Random Forest, kNN) mit Test and Score verbinden, Ergebnisse
+nebeneinander zeigen. Diskussion: kNN zu langsam für Leitungsgeschwindigkeit
+(muss für jeden Flow alle Trainingsdaten durchsuchen). Forest und Tree beide
+praktisch einsetzbar – aber welchen würdet ihr eurem Chef erklären?
 :::
 
 ## Genauigkeit vs. Erklärbarkeit
@@ -539,11 +614,22 @@ Im Unterricht und im echten Einsatz zählt:\\
 
 \bigskip
 
-**Random Forest** ist genauer – aber können wir die Regeln lesen?
+\begin{columns}
+\begin{column}{0.48\textwidth}
+\textbf{Entscheidungsbaum:}\\
+„Ich kann euch zeigen, warum\\
+dieser Flow als DDoS gilt."
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Random Forest:}\\
+„87 von 100 Bäumen sagten DDoS –\\
+aber warum, kann ich nicht zeigen."
+\end{column}
+\end{columns}
 
 ::: notes
-„Random Forest ist besser – aber können wir die Regeln lesen?" → Nein.
-„Was bedeutet das für den Einsatz in einem Unternehmen? In der Schule?"
+„Was ist im Schulnetz besser? Was wäre im produktiven Rechenzentrum besser?"
+„Würdet ihr einem System vertrauen, das blockt, aber nicht erklären kann warum?"
 :::
 
 # Abschluss

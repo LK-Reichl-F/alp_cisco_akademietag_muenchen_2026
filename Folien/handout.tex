@@ -6,7 +6,11 @@
 
 % ── Engine & Schriften ───────────────────────────────────────────────────────
 \usepackage{fontspec}
-\setmainfont{Roboto Slab}
+\directlua{
+  luaotfload.add_fallback("roboto-flex-fallback",
+    {"Roboto Flex:mode=harf;"})
+}
+\setmainfont{Roboto Slab}[RawFeature={fallback=roboto-flex-fallback}]
 \setsansfont{Roboto Flex}
 \setmonofont{JetBrains Mono}[Scale=MatchLowercase]
 
@@ -254,21 +258,35 @@ das ist \emph{Explainable AI}: KI, die wir erklären und verteidigen können.
       mit Test and Score verbinden und vergleichen
 \end{enumerate}
 
-\begin{tabularx}{\linewidth}{@{}lcc@{}}
-\toprule
-\textbf{Modell} & \textbf{Accuracy} & \textbf{Erklärbar?}\\
-\midrule
-Entscheidungsbaum & $\sim$98\,\% & Ja\\
-Random Forest & $\sim$99\,\% & Nein\\
-kNN & $\sim$96\,\% & Bedingt\\
-\bottomrule
-\end{tabularx}
+{\small
+\textbf{Entscheidungsbaum –} \textit{Flowchart-Logik:}
+Das Modell findet automatisch die besten Ja/Nein-Fragen,
+die BENIGN und DDoS trennen. Jede Regel ist lesbar –
+wie ein Troubleshooting-Leitfaden, aber aus Daten generiert.
 
 \smallskip
-{\small
-\textbf{Random Forest:} Viele Bäume stimmen ab – wie ein Komitee.\\
-\textbf{kNN:} Klasse der nächsten Nachbarn in den Trainingsdaten.
+\textbf{Random Forest –} \textit{Komitee-Entscheid:}
+100 unabhängige Bäume, jeder auf einem anderen Zufalls\-ausschnitt
+der Trainingsdaten trainiert. Die Mehrheit entscheidet.
+Genauer, aber die Regeln sind nicht mehr lesbar.
+
+\smallskip
+\textbf{kNN –} \textit{Ähnlichkeits-Suche:}
+Für jeden neuen Flow: suche die $k$ ähnlichsten bekannten Flows
+und nimm ihre Mehrheitsklasse. Kein trainiertes Modell –
+daher zu langsam für Leitungsgeschwindigkeit.
 }
+
+\smallskip
+\begin{tabularx}{\linewidth}{@{}lccc@{}}
+\toprule
+\textbf{Modell} & \textbf{Acc.} & \textbf{Lesbar?} & \textbf{Vorfilter?}\\
+\midrule
+Entscheidungsbaum & $\sim$98\,\% & Ja & Ja\\
+Random Forest     & $\sim$99\,\% & Nein & Ja\\
+kNN               & $\sim$96\,\% & Bedingt & Nein\\
+\bottomrule
+\end{tabularx}
 
 \uebung{5}{%
   Welches Modell würdet ihr als Vorfilter vor einer NGFW einsetzen?
@@ -292,6 +310,9 @@ kNN & $\sim$96\,\% & Bedingt\\
 \textbf{FN}          & Übersehener Angriff – DDoS als BENIGN \\
 \textbf{Alert Fatigue} & Admins ignorieren Alarme (zu viele FP) \\
 \textbf{Explainable AI} & KI mit lesbaren, verteidigbaren Regeln \\
+\textbf{Entscheidungsbaum} & Flowchart-Logik; Regeln aus Daten generiert \\
+\textbf{Random Forest} & 100 Bäume stimmen per Mehrheit ab \\
+\textbf{kNN} & Klasse der $k$ ähnlichsten Trainingsbeispiele \\
 \end{tabularx}
 }
 

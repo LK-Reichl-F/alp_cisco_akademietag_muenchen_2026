@@ -4,6 +4,31 @@ Unveränderliches Protokoll aller Wiki-Operationen.
 
 ---
 
+## 2026-04-19 — Algorithmen-Erklärungen ergänzt
+
+Neue Quellen eingepflegt: `Entscheidungsbaum in Orange.md`, `Random Forest Orange.md`, `kNN Orange.md`.
+
+**Erkenntnisse aus den Quellen:**
+- Entscheidungsbaum (Tree): teilt Daten per Information Gain (Klassenreinheit) – Vorläufer von Random Forest in Orange
+- Random Forest: Ensemble aus Bäumen, jeder auf Bootstrap-Sample trainiert; bei jedem Split zufällige Feature-Auswahl (daher „random"); Mehrheitsentscheid
+- kNN: speichert alle Trainingsdaten; für neue Instanz werden k nächste Nachbarn im Feature-Raum gesucht; normalisiert Daten automatisch; zu langsam für Leitungsgeschwindigkeit
+
+**Änderungen an `praesentation.md`:**
+- „Was ist ein Entscheidungsbaum?" → Analogie: Cisco-Troubleshooting-Flowchart, automatisch aus Daten generiert
+- Neue Folie „Drei Modelle – drei Ideen": je ein Block mit intuitiver Analogie (Flowchart / Komitee / Ähnlichkeitssuche)
+- Neue Folie „Drei Modelle im Vergleich": Tabelle mit Accuracy, Lesbarkeit, Vorfilter-Eignung; Fußnote zu kNN-Latenz
+- „Genauigkeit vs. Erklärbarkeit": konkrete Zitate für beide Szenarien ergänzt
+- Alle `→` durch `$\rightarrow$` ersetzt (Roboto Slab hat kein Unicode-Pfeilzeichen)
+- `$\sim$`-Prozentangaben durch `ca.` ersetzt (kein Math-Glyph-Problem mehr)
+
+**Änderungen an `handout.tex`:**
+- Phase-5-Abschnitt: je ein Erklärungsabsatz für Entscheidungsbaum, Random Forest, kNN (mit Analogie)
+- Vergleichstabelle: vierte Spalte „Vorfilter?" ergänzt
+- Glossar: drei neue Einträge (Entscheidungsbaum, Random Forest, kNN)
+- Roboto Flex als Fallback-Font für fehlende Zeichen in Roboto Slab (`directlua` + `RawFeature`)
+
+---
+
 ## 2026-04-19 — Präsentation nach Rahmen-Story überarbeitet
 
 `praesentation.md` grundlegend überarbeitet:

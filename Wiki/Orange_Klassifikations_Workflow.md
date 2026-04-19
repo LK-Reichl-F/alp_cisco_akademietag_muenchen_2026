@@ -2,7 +2,7 @@
 
 **Zusammenfassung**: Schritt-für-Schritt-Beschreibung des Orange-Workflows für den Workshop, von der Datensatz-Exploration bis zum Modellvergleich.
 
-**Quellen**: (Quelle: [[Examples.md]]), (Quelle: [[Orange Data Mining.md]]), (Quelle: [[Widget Catalog.md]])
+**Quellen**: (Quelle: [[Examples.md]]), (Quelle: [[Orange Data Mining]]), (Quelle: [[Widget Catalog.md]])
 
 **Zuletzt aktualisiert**: 2026-04-16
 

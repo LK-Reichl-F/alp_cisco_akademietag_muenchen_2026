@@ -18,7 +18,8 @@
       "Bash(lualatex -interaction=nonstopmode handout.tex)",
       "Bash(pandoc praesentation.md -o praesentation.pdf --to beamer --pdf-engine=lualatex)",
       "Bash(grep -v \"^$\")",
-      "Bash(grep -E \"[A-Za-zÄÖÜäöü]{4,}\")"
+      "Bash(grep -E \"[A-Za-zÄÖÜäöü]{4,}\")",
+      "Bash(wait)"
     ]
   }
 }
