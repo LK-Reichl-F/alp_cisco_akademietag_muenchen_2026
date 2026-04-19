@@ -4,6 +4,20 @@ Unveränderliches Protokoll aller Wiki-Operationen.
 
 ---
 
+## 2026-04-19 — Präsentation nach Rahmen-Story überarbeitet
+
+`praesentation.md` grundlegend überarbeitet:
+- „Das ist euer Netzwerk" → „Cisco NGFW schützt euer Netzwerk": Fokus auf DPI statt Topologie
+- „Eine Woche im Netzwerk" → „Das Problem: DDoS überlastet die Firewall": Überlastungskette mit Alert Fatigue
+- „Die zentrale Frage" → „Die Idee: ML als Vorfilter": ML-Modell als Entlastung vor DPI, konkrete Architektur
+- Neue Folie „Regelbasiert vs. maschinell lernen": GOFA vs. ML, basierend auf `MaschinellesLernen.drawio.svg`
+- Feature-Namen auf CICIDS-Folie korrigiert (echte CSV-Spaltennamen)
+- Abschlussfolien auf Cisco-Entlastungs-Narrativ ausgerichtet
+- Schlusszitat durch Rückbezug auf Cisco Secure Network Analytics ersetzt
+- Beide PDFs (`praesentation.pdf`, `handout.pdf`) neu gebaut; Schrift Roboto → Roboto Flex
+
+---
+
 ## 2026-04-16 — Initiale Erstellung
 
 **Ingested Quellen:**

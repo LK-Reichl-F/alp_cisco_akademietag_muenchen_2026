@@ -29,20 +29,23 @@ Kurzer Überblick über den Ablauf. Betonen: Kein Programmieren, kein Mathe – 
 arbeiten visuell. 90 Minuten, 6 Phasen.
 :::
 
-## Das ist euer Netzwerk
+## Cisco NGFW schützt euer Netzwerk
 
 :::: columns
 
 ::: column
 **On-Premise-Unternehmensnetzwerk**
 
-- Firewall, Switch, 10 Clients
-- 1 Web Server (Debian)
-- 1 Debian Server
+- Cisco NGFW / ASA mit IPS-Modul
+- Switch, Web-Server, 10 Clients
 
-\bigskip
+\medskip
 
-**Letzte Woche war einiges los ...**
+**Deep Packet Inspection (DPI)**
+
+Jedes Paket wird gegen eine\\
+\textbf{Signatur-Datenbank} geprüft –\\
+Header \emph{und} Payload.
 :::
 
 ::: column
@@ -63,7 +66,7 @@ arbeiten visuell. 90 Minuten, 6 Phasen.
 
 % Firewall
 \node[gray box, minimum width=2.6cm] (fw) at (0.95, 3.2)
-  {{\color{ALPBlau}\textbf{Firewall}} · NAT};
+  {{\color{ALPBlau}\textbf{Cisco NGFW}} · DPI};
 
 % Switch
 \node[gray box, minimum width=2.6cm] (sw) at (0.95, 2.35)
@@ -73,7 +76,7 @@ arbeiten visuell. 90 Minuten, 6 Phasen.
 \node[ALPBlau!70, font=\tiny] at (0.95, 1.85)
   {OPFERNETZWERK · 192.168.10.0/24};
 
-% Opfer – je 1.6 cm breit, Mittelpunkte bei –1.0 / +0.95 / +2.9 cm
+% Opfer
 \node[blue box] (web) at (-0.85, 1.2) {Web Server\\Debian};
 \node[blue box] (deb) at ( 0.95, 1.2) {Debian Server};
 \node[blue box] (cli) at ( 2.75, 1.2) {10× Clients\\Win · Mac};
@@ -91,47 +94,149 @@ arbeiten visuell. 90 Minuten, 6 Phasen.
 ::::
 
 ::: notes
-Netzwerkdiagramm erklären: „Das ist euer Netzwerk. Ihr seid die Netzwerkadmins."
-Topologie benennen: Firewall mit NAT, Switch, Opfernetzwerk 192.168.10.0/24.
-Angreifer-Seite zeigen: Kali Linux als Hauptangreifer, 3× Windows für DDoS.
+Topologie kurz benennen. Fokus auf die NGFW: „Die Cisco NGFW prüft jeden Paket-Header
+UND Payload gegen bekannte Angriffssignaturen – das nennt sich Deep Packet Inspection."
+Frage stellen: „Was passiert, wenn plötzlich 100.000 Pakete pro Sekunde ankommen?"
 :::
 
-## Eine Woche im Netzwerk
+## Das Problem: DDoS überlastet die Firewall
 
-| Tag | Ereignis |
-|-----|----------|
-| **Mo** | Normalbetrieb – 25 simulierte Nutzer |
-| **Di** | Brute Force – FTP/SSH (Patator) |
-| **Mi** | DoS – Slowloris, Hulk, Heartbleed |
-| **Do** | Web Attack, Infiltration, XSS, SQL Injection |
-| **Fr** | Botnet, Port Scan, **DDoS LOIT** 15:56–16:16 |
+\begin{alertblock}{Angriffsszenario}
+Tausende Flows pro Sekunde treffen gleichzeitig ein – ein DDoS-Angriff.
+\end{alertblock}
+
+\bigskip
+
+**Die Überlastungskette:**
+
+\medskip
+
+\begin{tabular}{cl}
+\textbf{1.} & DDoS flutet das Netz mit Flows \\[3pt]
+\textbf{2.} & NGFW-CPU steigt auf 100\,\% – DPI bricht zusammen \\[3pt]
+\textbf{3.} & Alarme häufen sich – Admins können nicht mehr priorisieren \\[3pt]
+\textbf{4.} & \textbf{Alert Fatigue:} echte Angriffe bleiben unbemerkt \\
+\end{tabular}
 
 ::: notes
-Leitfragen: „Wie viele von euch haben schon von Machine Learning gehört?" –
-„Was wäre der Vorteil von KI gegenüber klassischer Signaturerkennung?" –
-„Kann ein Algorithmus einen DDoS erkennen, ohne den Payload zu lesen?"
+Alert Fatigue ist ein reales SOC-Problem: Je mehr Fehlalarme, desto mehr ignorieren
+Admins die Alarme – bis echte Angriffe durchkommen. Frage: „Kennt ihr das aus der Praxis?"
+Überleitung: „Was wäre, wenn ein einfaches Modell 80–90 % des Traffics schon VOR der DPI
+vorsortiert? Die NGFW müsste nur noch den Rest prüfen."
 :::
 
-## Die zentrale Frage
+## Die Idee: ML als Vorfilter
 
-\begin{center}
-\Large
-Kann ein KI-Modell \textbf{normalen Traffic}\\[6pt]
-von \textbf{DDoS-Angriffen} unterscheiden?\\[18pt]
-\normalsize
-\textit{Ohne Payload-Inspektion – nur anhand von Flow-Metriken.}
-\end{center}
+:::: columns
+
+::: column
+**Heute:**
+
+\medskip
+
+Jeder Flow → NGFW → DPI
+
+\bigskip
+
+**Mit Vorfilter:**
+
+\medskip
+
+Jeder Flow → \textbf{ML-Modell}\\
+\quad $\rightarrow$ eindeutig BENIGN $\rightarrow$ durchlassen\\
+\quad $\rightarrow$ eindeutig DDoS $\rightarrow$ blockieren\\
+\quad $\rightarrow$ unklar $\rightarrow$ NGFW $\rightarrow$ DPI
+
+\bigskip
+
+\small\textit{Nur noch 10–20\,\% des Traffics\\
+erreicht die DPI-Stufe.}
+:::
+
+::: column
+\begin{block}{Entscheidend}
+Das ML-Modell analysiert \textbf{keine Payloads} –
+nur statistische Flow-Metriken:\\[6pt]
+Paketgröße · Antwortverhalten · Durchsatz\\[6pt]
+Das ist schnell genug für Leitungsgeschwindigkeit.
+\end{block}
+
+\bigskip
+
+\begin{block}{Heute bauen wir genau das}
+Ein einfacher \textbf{Entscheidungsbaum}
+mit 2–3 Regeln erreicht $\sim$98\,\% Genauigkeit.
+\end{block}
+:::
+
+::::
 
 ::: notes
-Überleitung: „Genau das schauen wir uns heute an – mit echten Messdaten aus
-einem Labor-Netzwerk." Lernziele kurz nennen.
+„Was ihr heute baut, ist konzeptionell dasselbe wie Cisco Secure Network Analytics /
+Stealthwatch – nur auf einem Laptop und mit 10.000 Flows statt Millionen."
+Betonen: kein Payload, keine Entschlüsselung nötig – das ist der Clou.
+:::
+
+## Regelbasiert vs. maschinell lernen
+
+:::: columns
+
+::: column
+\begin{block}{Good Old-Fashioned AI}
+\textbf{Experte schreibt Regeln per Hand:}
+
+\medskip
+
+\texttt{if SYN\_count > 1000 → BLOCK}\\
+\texttt{if payload contains "exploit" → ALERT}
+
+\medskip
+
+\small
+Problem: Neue Angriffe erfordern neue Regeln.\\
+Cisco-IPS: täglich neue Signaturen nötig.
+\end{block}
+:::
+
+::: column
+\begin{block}{Machine Learning}
+\textbf{Algorithmus lernt Regeln aus Daten:}
+
+\medskip
+
+Beispiele mit bekannten Labels →\\
+Modell erkennt Muster selbst →\\
+Regeln entstehen automatisch
+
+\medskip
+
+\small
+Neue Angriffe: neue Trainingsdaten genügen.\\
+Kein manuelles Signatur-Update.
+\end{block}
+:::
+
+::::
+
+\bigskip
+
+\begin{alertblock}{Der Unterschied im Kern}
+GOFA: Mensch → Regeln → Ergebnisse \hfill
+ML: Daten + Ergebnisse → Maschine → Regeln
+\end{alertblock}
+
+::: notes
+Diagramm aus MaschinellesLernen.drawio.svg erklären.
+GOFA: Experten-Wissen kodiert in handgeschriebenen Regeln.
+ML: Das System „sieht" Tausende Beispiele und findet selbst die Grenzen.
+„Signatur-Updates bei Cisco – das ist GOFA. Was wir heute bauen, ist ML."
 :::
 
 ## Lernziele
 
 Nach diesem Workshop können Sie …
 
-1. erklären, was **Data Mining** und **maschinelles Lernen** bedeuten
+1. erklären, wie **ML-Vorfilterung** Cisco-Geräte bei DDoS entlasten kann
 2. beschreiben, wie ein **Entscheidungsbaum** Netzwerktraffic klassifiziert
 3. beurteilen, was **Accuracy, False Positives** und **False Negatives**
    im IDS-Kontext bedeuten
@@ -162,13 +267,13 @@ Univ. of New Brunswick
 **Ausgewählte Features**
 
 ```
-fl_dur        Flow-Dauer
-tot_fw_pk     Pakete vorwärts
-fl_byt_s      Bytes/Sekunde
-syn_cnt       SYN-Pakete
-pkt_len_avg   Ø Paketgröße
-down_up_ratio Antwort-Quote
-Label         BENIGN / DDoS
+Flow Duration       Flow-Dauer
+Flow Packets/s      Pakete/Sekunde
+Flow Bytes/s        Bytes/Sekunde
+SYN Flag Count      SYN-Pakete
+Packet Length Mean  Ø Paketgröße
+Down/Up Ratio       Antwort-Quote
+Label               BENIGN / DDoS
 ```
 :::
 
@@ -445,11 +550,11 @@ Im Unterricht und im echten Einsatz zählt:\\
 
 ## Was haben wir gelernt?
 
-1. **KI = Mustererkennung in Daten** – kein Zaubern, sondern Statistik auf Netzwerkflows
-2. **Entscheidungsbaum = erklärbare KI** – wir können die Regeln lesen und verteidigen
-3. **Kein Modell ist perfekt** – False Positives und False Negatives sind unvermeidbar
-4. **Die Wahl des Modells ist eine Fachentscheidung** – Genauigkeit allein reicht nicht
-5. **Orange ist ein Werkzeug für den Unterricht** – kostenlos, visuell, kein Programmieren
+1. **DPI überlastet bei DDoS** – Cisco NGFW braucht einen Vorfilter
+2. **ML lernt Regeln aus Daten** – kein manuelles Signatur-Update nötig (≠ GOFA)
+3. **Entscheidungsbaum = erklärbare KI** – Regeln lesbar, verteidigbar, einsetzbar
+4. **Kein Modell ist perfekt** – False Positives und False Negatives sind unvermeidbar
+5. **Die Wahl des Modells ist eine Fachentscheidung** – Genauigkeit vs. Erklärbarkeit
 
 ## Transfer in den Unterricht
 
@@ -492,11 +597,11 @@ Materialien nennen: Handout, Datensatz, Workflow-Datei.
 
 \begin{center}
 \Large
-\textit{„Wenn du verstehst, wie ein Algorithmus}\\
-\textit{Netzwerktraffic liest,}\\
-\textit{verstehst du auch, wie Angreifer}\\
-\textit{ihn täuschen."}\\[18pt]
+\textit{Was ihr heute gebaut habt,}\\[4pt]
+\textit{ist der Vorfilter vor eurer Cisco NGFW.}\\[16pt]
 \normalsize
+Cisco Secure Network Analytics macht dasselbe –\\
+nur mit Millionen Flows pro Minute.\\[18pt]
 Feedback: Ein Wort, das diesen Workshop beschreibt.
 \end{center}
 
