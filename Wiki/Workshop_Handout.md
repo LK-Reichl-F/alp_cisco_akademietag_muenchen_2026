@@ -109,22 +109,22 @@ flowchart TD
 ## Diskussionsfragen
 
 ### Zur Datenexploration
-- Was seht ihr im Scatter Plot? Warum ist `Down/Up Ratio = 0` bei DDoS?
-- Welche anderen Features würden euch als Netzwerker interessieren?
+- Was sehen wir im Scatter Plot? Warum ist `Down/Up Ratio = 0` bei DDoS?
+- Welche anderen Features würden uns als Netzwerker interessieren?
 
 ### Zum Modell
 - Lest die oberste Verzweigung im Entscheidungsbaum laut vor. Ergibt sie Sinn?
 - Warum kann ein Entscheidungsbaum im Unternehmenseinsatz sinnvoller sein als Random Forest?
 
 ### Zur Bewertung
-- Euer Modell hat 98 % Accuracy. Bei 10.000 Flows pro Stunde – wie viele Fehlentscheidungen sind das?
+- Unser Modell hat 98 % Accuracy. Bei 10.000 Flows pro Stunde – wie viele Fehlentscheidungen sind das?
 - Was ist schlimmer: ein **Fehlalarm** (FP) oder ein **übersehener Angriff** (FN)?
 - Was ist **Alert Fatigue** – und wie hängt es mit False Positives zusammen?
 
 ### Zum Transfer
-- Wie könnte ihr diesen Workshop in euren eigenen Unterricht einbauen?
+- Wie könnten wir diesen Workshop in unseren eigenen Unterricht einbauen?
 - Für welche Jahrgangsstufe / welches Fach wäre das geeignet?
-- Welche anderen Datensätze könnten eure Schülerinnen und Schüler interessieren?
+- Welche anderen Datensätze könnten unsere Schülerinnen und Schüler interessieren?
 
 ---
 

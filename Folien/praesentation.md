@@ -22,14 +22,36 @@ header-includes:
 
 ## Agenda
 
-\tableofcontents[hideallsubsections]
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{enumerate}
+\item \textbf{Einstieg} \hfill \footnotesize 10 min\normalsize\\
+  \small Cisco NGFW, DDoS, ML als Vorfilter
+\item \textbf{Daten erkunden} \hfill \footnotesize 15 min\normalsize\\
+  \small Data Table, Scatter Plot
+\item \textbf{Entscheidungsbaum} \hfill \footnotesize 25 min\normalsize\\
+  \small Tree trainieren, Tree Viewer, Regeln lesen
+\end{enumerate}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Modellbewertung} \hfill \footnotesize 20 min\normalsize\\
+  \small Accuracy, Confusion Matrix, Alert Fatigue
+\item \textbf{Modellvergleich} \hfill \footnotesize 10 min\normalsize\\
+  \small Random Forest, kNN, Erklärbarkeit
+\item \textbf{Abschluss} \hfill \footnotesize 10 min\normalsize\\
+  \small Transfer, Materialien, Feedback
+\end{enumerate}
+\end{column}
+\end{columns}
 
 ::: notes
 Kurzer Überblick über den Ablauf. Betonen: Kein Programmieren, kein Mathe – wir
 arbeiten visuell. 90 Minuten, 6 Phasen.
 :::
 
-## Cisco NGFW schützt euer Netzwerk
+## Cisco NGFW schützt unser Netzwerk
 
 :::: columns
 
@@ -131,17 +153,14 @@ vorsortiert? Die NGFW müsste nur noch den Rest prüfen."
 :::: columns
 
 ::: column
-**Heute:**
+\small
+\textbf{Heute:} Jeder Flow $\rightarrow$ NGFW $\rightarrow$ DPI
 
 \medskip
 
-Jeder Flow $\rightarrow$ NGFW $\rightarrow$ DPI
+\textbf{Mit Vorfilter:}
 
-\bigskip
-
-**Mit Vorfilter:**
-
-\medskip
+\smallskip
 
 \begin{tabular}{@{}l@{}}
 Jeder Flow $\rightarrow$ \textbf{ML-Modell}\\
@@ -150,24 +169,20 @@ Jeder Flow $\rightarrow$ \textbf{ML-Modell}\\
 \quad $\rightarrow$ unklar $\rightarrow$ NGFW $\rightarrow$ DPI
 \end{tabular}
 
-\bigskip
+\smallskip
 
-\small\textit{Nur noch 10–20\,\% des Traffics erreicht die DPI-Stufe.}
+\textit{Nur noch 10–20\,\% des Traffics erreicht die DPI-Stufe.}
 :::
 
 ::: column
-\begin{block}{Entscheidend}
+\begin{block}{Entscheidend: kein Payload}
+\small
 Das ML-Modell analysiert \textbf{keine Payloads} –
-nur statistische Flow-Metriken:\\[6pt]
-Paketgröße · Antwortverhalten · Durchsatz\\[6pt]
-Das ist schnell genug für Leitungsgeschwindigkeit.
-\end{block}
-
-\bigskip
-
-\begin{block}{Heute bauen wir genau das}
-Ein einfacher \textbf{Entscheidungsbaum}
-mit 2–3 Regeln erreicht ca.\ 98\,\% Genauigkeit.
+nur statistische Flow-Metriken:\\[3pt]
+Paketgröße · Antwortverhalten · Durchsatz\\[3pt]
+Schnell genug für Leitungsgeschwindigkeit.\\[3pt]
+\textbf{Ein einfacher Entscheidungsbaum mit 2–3 Regeln\\
+erreicht ca.\ 98\,\% Genauigkeit.}
 \end{block}
 :::
 
@@ -232,9 +247,10 @@ ML: Das System „sieht" Tausende Beispiele und findet selbst die Grenzen.
 :::: columns
 
 ::: column
-**Good Old-Fashioned AI**
+\footnotesize
+\textbf{Good Old-Fashioned AI}
 
-\bigskip
+\smallskip
 
 \begin{enumerate}
 \item Experte analysiert Angriffs\-muster
@@ -242,16 +258,13 @@ ML: Das System „sieht" Tausende Beispiele und findet selbst die Grenzen.
 \item Regel wird deployed
 \item Neuer Angriff $\rightarrow$ zurück zu Schritt 1
 \end{enumerate}
-
-\bigskip
-
-\small\textit{Cisco IPS: täglich neue Signaturen. Jede Regel ist handgemacht.}
 :::
 
 ::: column
-**Machine Learning**
+\footnotesize
+\textbf{Machine Learning}
 
-\bigskip
+\smallskip
 
 \begin{enumerate}
 \item Trainingsdaten sammeln (Flows + Labels)
@@ -259,10 +272,6 @@ ML: Das System „sieht" Tausende Beispiele und findet selbst die Grenzen.
 \item Modell generiert Regeln automatisch
 \item Neuer Angriff $\rightarrow$ neue Daten genügen
 \end{enumerate}
-
-\bigskip
-
-\small\textit{Kein manuelles Signatur-Update. Das Modell lernt neu.}
 :::
 
 ::::
@@ -389,19 +398,22 @@ Genau diese Struktur \textbf{lernt} ein KI-Modell.
 :::: columns
 
 ::: column
-**Kennt ihr das?**
+\small
+\textbf{Kennen wir das?}
+
+\smallskip
+
+Cisco-Troubleshooting-Leitfäden:
+
+\smallskip
+\begin{tabular}{@{}l@{}}
+\textit{Link-LED aus? $\rightarrow$ Kabel prüfen.}\\
+\textit{Ping OK? $\rightarrow$ Layer-3-Problem.}
+\end{tabular}
 
 \medskip
 
-Cisco-Troubleshooting-Leitfäden funktionieren genauso:
-
-\smallskip
-\textit{„Leuchtet die Link-LED? $\rightarrow$ Nein $\rightarrow$ Kabel prüfen."}\\
-\textit{„Ping möglich? $\rightarrow$ Ja $\rightarrow$ Layer-3-Problem."}
-
-\bigskip
-
-**Ein Entscheidungsbaum ist genau das – nur findet das Modell die Fragen selbst, aus den Trainingsdaten.**
+\textbf{Das Modell findet diese Fragen selbst, aus den Trainingsdaten.}
 :::
 
 ::: column
@@ -414,12 +426,9 @@ Cisco-Troubleshooting-Leitfäden funktionieren genauso:
 \hspace*{12mm}Nein $\rightarrow$ DDoS (94\,\%)
 \end{block}
 
-\medskip
+\smallskip
 
-\footnotesize
-Trainingsphase: Modell sieht 7\,000 Flows mit bekannten Labels und findet die besten Fragen.
-
-Testphase: 3\,000 neue Flows – kein Label bekannt.
+\footnotesize 70\,\% Training · 30\,\% Test
 :::
 
 ::::
@@ -558,7 +567,7 @@ $\rightarrow$ Kein Alarm ausgelöst
 $\rightarrow$ **Angreifer operiert unbemerkt**
 
 \bigskip
-*Was ist schlimmer in eurem Netzwerk?*
+*Was ist schlimmer in unserem Netzwerk?*
 :::
 
 ::::
@@ -579,52 +588,43 @@ Diskussionsfragen: „Wie viele False Positives sind tolerierbar?" –
 
 ## Entscheidungsbaum – Flowchart-Logik
 
-:::: columns
-
-::: column
-**Position im Vergleich**
-
-\bigskip
-
+\begin{columns}[T]
+\begin{column}{0.36\textwidth}
+\footnotesize
 \begin{tabular}{@{}ll@{}}
-Accuracy  & ca.\ 97--98\,\% \\[4pt]
-Regeln    & \textbf{lesbar}, verteidigbar \\[4pt]
-Training  & schnell \\[4pt]
-Vorfilter & \textbf{Ja} \\
+\textbf{Accuracy}  & ca.\ 97--98\,\% \\[2pt]
+\textbf{Regeln}    & lesbar, verteidigbar \\[2pt]
+\textbf{Training}  & schnell \\[2pt]
+\textbf{Vorfilter} & Ja \\
 \end{tabular}
 
-\bigskip
+\smallskip
 
-\begin{block}{Kernregel aus unseren Daten}
-\small
-\texttt{Flow Bytes/s > 45\,000?}\\[2pt]
-\hspace*{4mm}Ja $\rightarrow$ \textbf{DDoS} (99\,\%)
+\begin{block}{}
+\footnotesize
+\texttt{Flow Bytes/s > 45\,000?}\\[1pt]
+\hspace*{3mm}Ja $\rightarrow$ \textbf{DDoS} (99\,\%)\\[1pt]
+\textit{Zwei Fragen, 98\,\% Genauigkeit.}
 \end{block}
-
-\small\textit{Zwei Fragen reichen für 98\,\% Genauigkeit.}
-:::
-
-::: column
-**Warum für den Einstieg ideal**
+\end{column}
+\begin{column}{0.60\textwidth}
+\small
+\begin{itemize}
+\item Regeln lesbar wie ein Troubleshooting-Leitfaden
+\item Jede Entscheidung nachvollziehbar
+\item Kann Vorgesetzten oder Schülern gezeigt werden
+\end{itemize}
 
 \medskip
 
-\begin{itemize}
-\item Regeln sind lesbar wie ein Troubleshooting-Leitfaden
-\item Jede Entscheidung ist nachvollziehbar und erklärbar
-\item Kann einem Vorgesetzten oder Schüler gezeigt werden
-\end{itemize}
-
-\bigskip
-
 \begin{alertblock}{Explainable AI}
-Im Schulnetz und im echten Betrieb gilt:\\
-Wir müssen erklären können, \textbf{warum} das Modell blockt.\\
+\small
+Im echten Einsatz müssen wir erklären können,\\
+\textbf{warum} das Modell blockt.\\
 Der Entscheidungsbaum kann das – Random Forest nicht.
 \end{alertblock}
-:::
-
-::::
+\end{column}
+\end{columns}
 
 ::: notes
 Übergang zum Vergleich: „Den Baum kennt ihr schon – ihr habt ihn im Tree Viewer gesehen.
@@ -634,56 +634,38 @@ Betonen: Die 2-Fragen-Regel ist kein Zufall – das Modell hat das aus den Daten
 
 ## Random Forest – das Komitee
 
-:::: columns
+\begin{columns}[T]
+\begin{column}{0.52\textwidth}
+\small
+\textbf{Das Prinzip:} Nicht ein Baum, sondern \textbf{100 unabhängige Bäume}.
 
-::: column
-**Das Prinzip**
-
-\medskip
-
-Nicht ein Baum, sondern \textbf{100 unabhängige Bäume}.
-
-\bigskip
+\smallskip
 
 \begin{enumerate}
-\item Jeder Baum trainiert auf einem \textbf{zufälligen Ausschnitt} der Daten (Bootstrap)
-\item Bei jeder Verzweigung: zufällige Auswahl der Features
+\item Jeder Baum auf zufälligem Daten-Ausschnitt trainiert (Bootstrap)
+\item Bei jeder Verzweigung: zufällige Feature-Auswahl
 \item Alle 100 Bäume stimmen ab – \textbf{Mehrheit entscheidet}
 \end{enumerate}
 
-\bigskip
+\smallskip
 
-\small\textit{„87 von 100 Bäumen sagen DDoS $\rightarrow$ DDoS"}
-:::
+\textit{„87 von 100 Bäumen sagen DDoS $\rightarrow$ DDoS"}
+\end{column}
+\begin{column}{0.44\textwidth}
+\small
+Accuracy ca.\ 99\,\% – ein Prozentpunkt besser als Tree.
 
-::: column
-**Warum besser als ein einzelner Baum?**
+Ein Baum kann überanpassen – 100 Bäume gleichen Fehler aus.
 
 \medskip
 
-Ein einzelner Baum kann überanpassen.\\
-100 Bäume gleichen Fehler aus.
-
-\bigskip
-
-\begin{block}{Vergleich}
+\begin{alertblock}{Nachteil: Black Box}
 \small
-\begin{tabular}{@{}ll@{}}
-Entscheidungsbaum & ca.\ 98\,\% Accuracy\\
-Random Forest     & ca.\ 99\,\% Accuracy\\
-\end{tabular}
-\end{block}
-
-\bigskip
-
-\begin{alertblock}{Nachteil}
-\small
-100 Bäume $\rightarrow$ keine lesbaren Regeln mehr.\\
-\textbf{Black Box:} Wir sehen das Ergebnis, nicht den Weg.
+100 Bäume $\rightarrow$ keine lesbaren Regeln.\\
+Wir sehen das Ergebnis, nicht den Weg.
 \end{alertblock}
-:::
-
-::::
+\end{column}
+\end{columns}
 
 ::: notes
 Analogie: „Statt einen Experten zu fragen, befragt ihr 100 unabhängige Experten
@@ -695,54 +677,37 @@ In Orange: Random Forest mit Test and Score verbinden, Accuracy mit Tree verglei
 
 ## k-Nearest Neighbors – Ähnlichkeitssuche
 
-:::: columns
+\begin{columns}[T]
+\begin{column}{0.52\textwidth}
+\small
+\textbf{Das Prinzip:} kNN \textbf{trainiert gar nichts} – es speichert alle 7\,000 Trainings-Flows.
 
-::: column
-**Das Prinzip**
-
-\medskip
-
-kNN \textbf{trainiert gar nichts}.\\
-Es speichert alle 7\,000 Trainings-Flows.
-
-\bigskip
+\smallskip
 
 \begin{enumerate}
 \item Neuer Flow kommt an
-\item Berechne Abstand zu allen 7\,000 bekannten Flows
-\item Finde die \textbf{5 ähnlichsten} (k=5)
+\item Abstand zu allen 7\,000 bekannten Flows berechnen
+\item 5 ähnlichste finden (k=5)
 \item Mehrheitsklasse der 5 Nachbarn $\rightarrow$ Vorhersage
 \end{enumerate}
 
-\bigskip
+\smallskip
 
-\small\textit{„4 von 5 Nachbarn sind DDoS $\rightarrow$ DDoS"}
-:::
-
-::: column
-**Das Problem in der Praxis**
-
-\bigskip
-
-\begin{alertblock}{Zu langsam für Leitungsgeschwindigkeit}
+\textit{„4 von 5 Nachbarn DDoS $\rightarrow$ DDoS"}
+\end{column}
+\begin{column}{0.44\textwidth}
 \small
-Jeder neue Flow: Vergleich mit \textbf{allen} 7\,000 Beispielen.\\
-Bei 10\,000 Flows/Sekunde: nicht praxistauglich als Vorfilter.
+\begin{alertblock}{Zu langsam als Vorfilter}
+\small
+Jeder neue Flow: Vergleich mit allen 7\,000 Beispielen.\\
+Bei 10\,000 Flows/s nicht praxistauglich.
 \end{alertblock}
 
-\bigskip
+\medskip
 
-\begin{block}{Aber nützlich für}
-\small
-\begin{itemize}
-\item Forensik: „Zeig mir ähnliche Fälle"
-\item Kleine Datenmengen offline analysieren
-\item Erklärung: Nachbarn sind sichtbar – teilweise nachvollziehbar
-\end{itemize}
-\end{block}
-:::
-
-::::
+Nützlich für Forensik und offline-Analysen kleiner Datensätze – aber kein Echtzeit-Vorfilter.
+\end{column}
+\end{columns}
 
 ::: notes
 kNN ist keine KI im klassischen Sinne – es gibt kein trainiertes Modell.
@@ -786,7 +751,7 @@ Im Unterricht und im echten Einsatz zählt:\\
 \begin{columns}
 \begin{column}{0.48\textwidth}
 \textbf{Entscheidungsbaum:}\\
-„Ich kann euch zeigen, warum\\
+„Wir können zeigen, warum\\
 dieser Flow als DDoS gilt."
 \end{column}
 \begin{column}{0.48\textwidth}
@@ -852,8 +817,8 @@ Materialien nennen: Handout, Datensatz, Workflow-Datei.
 
 \begin{center}
 \Large
-\textit{Was ihr heute gebaut habt,}\\[4pt]
-\textit{ist der Vorfilter vor eurer Cisco NGFW.}\\[16pt]
+\textit{Was wir heute gebaut haben,}\\[4pt]
+\textit{ist der Vorfilter vor unserer Cisco NGFW.}\\[16pt]
 \normalsize
 Cisco Secure Network Analytics macht dasselbe –\\
 nur mit Millionen Flows pro Minute.\\[18pt]
