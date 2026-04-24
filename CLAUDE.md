@@ -94,3 +94,84 @@ Wenn der Benutzer darum bittet, das Wiki zu linten oder zu prüfen:
 - Seitennamen Worten mit Unterstrichen halten (z. B. `Maschinelles_Lernen.md`)
 - In klarer, einfacher Sprache schreiben
 - Bei Unsicherheit über die Kategorisierung den Benutzer fragen
+
+---
+
+## Aktueller Stand — 2026-04-24
+
+### Artefakte
+
+| Datei | Status |
+|---|---|
+| `Folien/praesentation.md` | Hauptquelle, wird mit `make` zu `praesentation.pdf` gebaut |
+| `Folien/handout.tex` | LuaLaTeX-Handout, wird mit `make` zu `handout.pdf` gebaut |
+| `Folien/Makefile` | Baut beide PDFs; Inkscape für SVG→PDF, pandoc+lualatex für Beamer |
+| `Wiki/CRISP-DM.md` | Neu erstellt; vollständiges Mapping aller 6 Phasen auf den Workshop |
+| `Wiki/Log.md` | Unveränderlich; alle Operationen protokolliert |
+
+### Folienreihenfolge (Stand 2026-04-24)
+
+```
+# Einstieg
+  Agenda
+  Cisco NGFW schützt unser Netzwerk
+  Das Problem: DDoS überlastet die Firewall
+  Die Idee: ML als Vorfilter
+  Lernziele                          ← hierher verschoben (war zu spät)
+  Maschinelles Lernen                ← Bild MaschinellesLernen.pdf
+  Regelbasiert vs. maschinell lernen
+  Der Unterschied im Kern
+  Unser Prozessrahmen: CRISP-DM
+
+# Daten erkunden
+  CRISP-DM · Phase 2: Data Understanding
+  Der Datensatz: CICIDS2017
+  Daten erkunden: Data Table
+  Was sehen wir im Scatter Plot?
+  Zwischensicherung: Daten haben Struktur
+
+# Entscheidungsbaum
+  CRISP-DM · Phase 4: Modeling
+  Was ist ein Entscheidungsbaum?
+  Der Entscheidungsbaum in Orange
+  Welche Frage steht ganz oben?
+  Ist das Magie?
+
+# Modellbewertung
+  CRISP-DM · Phase 5: Evaluation
+  Wie gut ist unser Modell?
+  Die Confusion Matrix
+  Accuracy, Precision und Recall
+  Die Spannung im IDS              ← eigene Folie (war im vorigen Block)
+  Alert Fatigue – ein reales Problem
+
+# Modellvergleich
+  CRISP-DM · Phase 5: Evaluation (Fortsetzung)
+  Entscheidungsbaum – Flowchart-Logik
+  Random Forest – das Komitee
+  k-Nearest Neighbors – Ähnlichkeitssuche
+  Drei Modelle im Vergleich
+  Genauigkeit vs. Erklärbarkeit
+
+# Abschluss
+  CRISP-DM · Phase 6: Deployment
+  Was haben wir gelernt?
+  Transfer in den Unterricht
+  Materialien
+  Danke – und ein Wort zum Schluss
+```
+
+### Wichtige Designentscheidungen
+
+- **Regelkonfiguration (Signaturpflege)** ersetzt überall „GOFA / Good Old-Fashioned AI" (kein KI-Begriff, sondern manuelle Firewall-Arbeit)
+- **Lernziel 1** lautet: „erläutern, was maschinelles Lernen ist und wie es sich von *vom Menschen vorgenommener* Regelkonfiguration (Signaturpflege) unterscheidet" — betont, dass in beiden Fällen Regeln konfiguriert werden, der Unterschied nur im Wer liegt
+- **Explainable AI**-Kasten auf der Folie „Entscheidungsbaum – Flowchart-Logik": bewusst abgeschwächt zu „wünschenswert" (nicht „müssen")
+- **kNN-Folie**: TikZ-Scatter-Plot mit Abstandslinien; Ergebniskasten oben rechts bei (4.2, 3.2)
+- **CRISP-DM-Folie**: Speaker Notes enthalten Quellenbelege (KDnuggets 2002–2014, Forbes 2015, Mariscal 2010)
+- **Build**: `cd Folien && make` — benötigt Inkscape (SVG→PDF) und pandoc+lualatex
+
+### Offene Punkte / mögliche nächste Schritte
+
+- Handout spiegelt die neuen Lernziele (7 statt 6) noch nicht wider
+- Handout enthält noch keinen Abschnitt zu Accuracy/Precision/Recall anhand der Konfusionsmatrix
+- Präsentation wurde zuletzt erfolgreich gebaut (kein Fehler)

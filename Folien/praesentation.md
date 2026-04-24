@@ -194,6 +194,21 @@ Stealthwatch – nur auf einem Laptop und mit 10.000 Flows statt Millionen."
 Betonen: kein Payload, keine Entschlüsselung nötig – das ist der Clou.
 :::
 
+## Lernziele
+
+Nach diesem Workshop können Sie …
+
+1. erläutern, was **maschinelles Lernen** ist und wie es sich von
+   **vom Menschen vorgenommener Regelkonfiguration (Signaturpflege)** unterscheidet
+2. erklären, wie **ML-Vorfilterung** Cisco-Geräte bei DDoS entlasten kann
+3. beschreiben, wie ein **Entscheidungsbaum** Netzwerktraffic klassifiziert
+4. beurteilen, was **Accuracy, False Positives** und **False Negatives**
+   im IDS-Kontext bedeuten
+5. einschätzen, was den Unterschied zwischen einem **interpretierbaren**
+   und einem **Black-Box-Modell** ausmacht
+6. **Orange Data Mining** für einen einfachen Klassifikations-Workflow nutzen
+7. das heutige Vorgehen den **sechs Phasen von CRISP-DM** zuordnen
+
 ## Maschinelles Lernen
 
 \begin{center}
@@ -295,19 +310,6 @@ Signatur-Updates: jede neue Malware braucht einen Experten + Deployment-Zyklus.
 ML: Neue Trainingsdaten sammeln, Modell neu trainieren – fertig.
 :::
 
-## Lernziele
-
-Nach diesem Workshop können Sie …
-
-1. erklären, wie **ML-Vorfilterung** Cisco-Geräte bei DDoS entlasten kann
-2. beschreiben, wie ein **Entscheidungsbaum** Netzwerktraffic klassifiziert
-3. beurteilen, was **Accuracy, False Positives** und **False Negatives**
-   im IDS-Kontext bedeuten
-4. einschätzen, was den Unterschied zwischen einem **interpretierbaren**
-   und einem **Black-Box-Modell** ausmacht
-5. **Orange Data Mining** für einen einfachen Klassifikations-Workflow nutzen
-6. das heutige Vorgehen den **sechs Phasen von CRISP-DM** zuordnen
-
 ## Unser Prozessrahmen: CRISP-DM
 
 :::: columns
@@ -345,6 +347,10 @@ wir folgen einem etablierten Prozessmodell, das in der Industrie Standard ist."
 Betonen: Phase 3 (Data Preparation) haben wir vorbereitet – im echten Projekt
 ist das oft der aufwändigste Schritt.
 Hinweis: Am Ende des Workshops kurz zurückblenden – welche Phase hat wie lang gedauert?
+
+Beleg für „meistgenutzt": KDnuggets-Praktiker-Umfragen 2002, 2004, 2007 und 2014
+(G. Piatetsky-Shapiro, kdnuggets.com); Forbes 29.07.2015 „most widely-used analytics
+model"; Mariscal et al. (2010), Knowledge Engineering Review 25(2).
 :::
 
 # Daten erkunden
@@ -677,6 +683,57 @@ Vier Felder beschriften. Dann: False Positives in der Matrix auswählen $\righta
 Scatter Plot zeigt diese Punkte. „Wo liegen sie?" $\rightarrow$ An der Klassengrenze.
 :::
 
+## Accuracy, Precision und Recall
+
+\small
+\begin{tabular}{@{}p{2.0cm} p{3.8cm} p{5.2cm}@{}}
+\textbf{Metrik} & \textbf{Formel} & \textbf{IDS-Frage} \\[2pt]
+\hline
+\rule{0pt}{16pt}\textbf{Accuracy} &
+  $\dfrac{TP + TN}{\text{alle Flows}}$ &
+  Wie oft liegt das Modell richtig? \\[14pt]
+\textbf{Precision} &
+  $\dfrac{TP}{TP + FP}$ &
+  Von allen DDoS-Alarmen:\\
+  & & wie viele waren wirklich DDoS? \\[14pt]
+\textbf{Recall} &
+  $\dfrac{TP}{TP + FN}$ &
+  Von allen echten Angriffen:\\
+  & & wie viele wurden erkannt? \\[4pt]
+\hline
+\end{tabular}
+
+::: notes
+Auf die Confusion Matrix zurückverweisen: „TP, FP, FN, TN – das habt ihr
+gerade im Matrix-Diagramm gesehen. Jetzt rechnen wir damit."
+Precision und Recall gegenüberstellen: „Ein Modell, das alles als DDoS
+klassifiziert, hat Recall 100 % – aber Precision nahe 0 %."
+:::
+
+## Die Spannung im IDS
+
+\begin{block}{Precision vs. Recall}
+\normalsize
+Hohe Precision $\rightarrow$ wenige Fehlalarme (weniger Alert Fatigue)\\[6pt]
+Hoher Recall $\rightarrow$ wenige übersehene Angriffe\\[6pt]
+\textit{Beides gleichzeitig zu maximieren ist nicht möglich.}
+\end{block}
+
+\bigskip
+
+\begin{exampleblock}{Extrembeispiel}
+\normalsize
+Modell klassifiziert \textbf{alles} als DDoS:\\
+Recall $= 100\,\%$ \quad aber \quad Precision $\approx 50\,\%$\\[4pt]
+$\rightarrow$ Jeder zweite Alarm ist ein Fehlalarm.
+\end{exampleblock}
+
+::: notes
+Das Extrembeispiel verdeutlicht den Trade-off konkret.
+Im IDS-Kontext entscheidet die Einsatzumgebung, was schlimmer ist:
+ein übersehener Angriff (niedriger Recall) oder Alert Fatigue (niedrige Precision).
+:::
+
 ## Alert Fatigue – ein reales Problem
 
 :::: columns
@@ -760,12 +817,12 @@ um es vor Vorgesetzten und Schülern zu verteidigen?
 
 \medskip
 
-\begin{alertblock}{Explainable AI}
+\begin{block}{Explainable AI}
 \small
-Im echten Einsatz müssen wir erklären können,\\
-\textbf{warum} das Modell blockt.\\
-Der Entscheidungsbaum kann das – Random Forest nicht.
-\end{alertblock}
+Im echten Einsatz ist es wünschenswert, erklären\\
+zu können, \textbf{warum} das Modell blockt.\\
+Der Entscheidungsbaum ermöglicht das – Random Forest nicht.
+\end{block}
 \end{column}
 \end{columns}
 
