@@ -21,7 +21,7 @@ $(LOGO_ICO):
 	         ../Quellen/ALP-Logo.svg
 
 # Grafik: MaschinellesLernen SVG → PDF
-$(ML_IMG):
+$(ML_IMG): ../Quellen/MaschinellesLernen.drawio.svg
 	inkscape --export-type=pdf \
 	         --export-filename=$(ML_IMG) \
 	         ../Quellen/MaschinellesLernen.drawio.svg

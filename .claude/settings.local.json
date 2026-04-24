@@ -22,7 +22,8 @@
       "Bash(wait)",
       "Bash(pdfinfo praesentation.pdf)",
       "Bash(lualatex handout.tex)",
-      "Bash(echo \"Exit: $?\")"
+      "Bash(echo \"Exit: $?\")",
+      "Bash(make)"
     ]
   }
 }

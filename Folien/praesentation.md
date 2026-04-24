@@ -514,6 +514,72 @@ Erste Verzweigung laut vorlesen: „Wenn fl_byt_s > X, dann sehr wahrscheinlich
 DDoS." Frage: „Ergibt das für euch Sinn?" $\rightarrow$ Ja, DDoS-Flows transportieren
 große HTTP-Requests (LOIC). Dann: Knoten anklicken $\rightarrow$ Punkte im Scatter Plot
 leuchten auf.
+Überleitung zur nächsten Folie: „Aber woher wusste das Modell, dass es mit
+genau dieser Frage anfangen soll?"
+:::
+
+## Welche Frage steht ganz oben?
+
+:::: columns
+
+::: column
+\small
+Der Algorithmus \textbf{probiert alle möglichen Fragen} aus –
+jedes Feature, jeder Schwellenwert.
+
+\medskip
+
+Für jede Frage prüft er:
+\textit{Wie rein sind die entstehenden Gruppen?}
+
+\medskip
+
+\begin{block}{Rein = fast nur eine Klasse}
+\small Die Frage mit den \textbf{reinsten Gruppen}\\
+kommt ganz oben in den Baum.
+\end{block}
+:::
+
+::: column
+\footnotesize
+
+\textbf{Schlechte Frage:} \texttt{SYN Flag Count > 0?}
+
+\smallskip
+
+\begin{tabular}{@{}l p{3cm}@{}}
+Ja: & DDoS \textit{und} BENIGN gemischt \\
+Nein: & DDoS \textit{und} BENIGN gemischt \\
+\end{tabular}
+
+\smallskip
+\textcolor{orange!80!black}{Gruppen kaum getrennt.}
+
+\medskip
+
+\textbf{Gute Frage:} \texttt{Flow Bytes/s > 45\,000?}
+
+\smallskip
+
+\begin{tabular}{@{}l p{3cm}@{}}
+Ja: & 99\,\% DDoS \\
+Nein: & 95\,\% BENIGN \\
+\end{tabular}
+
+\smallskip
+\textcolor{green!60!black}{Gruppen fast rein. $\rightarrow$ Wird die erste Frage.}
+
+:::
+
+::::
+
+::: notes
+„Das Modell schaut sich alle 11 Features an und probiert für jedes Feature
+Hunderte von Schwellenwerten aus. Es wählt die Kombination, die die
+7.000 Trainingsflows am saubersten in zwei Gruppen teilt."
+Fachbegriff nur bei Interesse nennen: Gini-Unreinheit oder Informationsgewinn.
+„Das Ergebnis habt ihr gerade im Baum gesehen: Flow Bytes/s > 45.000 –
+das hat das Modell selbst herausgefunden, nicht wir."
 :::
 
 ## Ist das Magie?
@@ -773,16 +839,43 @@ In Orange: Random Forest mit Test and Score verbinden, Accuracy mit Tree verglei
 \textit{„4 von 5 Nachbarn DDoS $\rightarrow$ DDoS"}
 \end{column}
 \begin{column}{0.44\textwidth}
-\small
-\begin{alertblock}{Zu langsam als Vorfilter}
-\small
-Jeder neue Flow: Vergleich mit allen 7\,000 Beispielen.\\
-Bei 10\,000 Flows/s nicht praxistauglich.
-\end{alertblock}
+\begin{tikzpicture}[scale=0.78]
+  % Achsen
+  \draw[->,gray!50,thin] (0,0) -- (5.6,0)
+    node[right,font=\tiny,gray!70] {Paketgröße};
+  \draw[->,gray!50,thin] (0,0) -- (0,4.0)
+    node[above,font=\tiny,gray!70] {Down/Up};
+  % BENIGN-Punkte (oben links)
+  \foreach \x/\y in {0.6/3.2, 0.9/3.6, 1.1/2.9, 0.7/3.0, 1.4/3.5, 0.8/2.7, 1.2/3.8}{
+    \fill[ALPBlau!80] (\x,\y) circle (2.5pt);
+  }
+  \node[ALPBlau,font=\tiny] at (1.0,2.4) {BENIGN};
+  % DDoS-Punkte (unten rechts)
+  \foreach \x/\y in {3.5/0.4, 3.8/0.6, 4.2/0.3, 4.5/0.5, 3.9/0.2, 4.1/0.7, 4.7/0.4}{
+    \fill[red!70!black] (\x,\y) circle (2.5pt);
+  }
+  \node[red!70!black,font=\tiny] at (4.4,1.1) {DDoS};
+  % Neuer unbekannter Flow
+  \node[draw,circle,fill=white,minimum size=10pt,inner sep=0pt,
+        font=\tiny\bfseries,line width=0.8pt] (neu) at (3.1,1.1) {?};
+  \node[font=\tiny,gray,above=2pt of neu] {neuer Flow};
+  % Abstände zu k=5 nächsten Nachbarn
+  \draw[dashed,red!55,line width=0.7pt] (neu.center) -- (3.5,0.4);
+  \draw[dashed,red!55,line width=0.7pt] (neu.center) -- (3.8,0.6);
+  \draw[dashed,red!55,line width=0.7pt] (neu.center) -- (3.9,0.2);
+  \draw[dashed,red!55,line width=0.7pt] (neu.center) -- (4.2,0.3);
+  \draw[dashed,ALPBlau!70,line width=0.7pt] (neu.center) -- (1.4,3.5);
+  % Beschriftung einer Linie
+  \node[font=\tiny,gray,rotate=20] at (3.55,0.9) {Abstand};
+  % Ergebnis
+  \node[font=\tiny,fill=red!8,draw=red!30,rounded corners=2pt,
+        inner sep=3pt,align=center] at (4.2,3.2)
+    {4 von 5: \textcolor{red!70!black}{\textbf{DDoS}}\\
+     $\Rightarrow$ Vorhersage: DDoS};
+\end{tikzpicture}
 
-\medskip
-
-Nützlich für Forensik und offline-Analysen kleiner Datensätze – aber kein Echtzeit-Vorfilter.
+\vspace{2pt}
+{\tiny\textcolor{gray}{Abstand = euklidischer Abstand im Feature-Raum}}
 \end{column}
 \end{columns}
 

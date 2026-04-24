@@ -159,12 +159,12 @@ ohne Payload-Inspektion.
   \dotfill
 }
 
-% ─── 2. Regelbasiert vs. Machine Learning ────────────────────────────────────
-\section{Regelbasiert vs.\ Machine Learning}
+% ─── 2. Regelkonfiguration vs. Machine Learning ──────────────────────────────
+\section{Regelkonfiguration (Signaturpflege) vs.\ ML}
 
 \begin{tabularx}{\linewidth}{@{}p{2.3cm}X@{}}
 \toprule
-\textbf{Regelbasiert} &
+\textbf{Regelkonfig.} &
   Experten schreiben Regeln:
   \texttt{if SYN > 1000 → BLOCK}.
   Neue Angriffe erfordern neue Regeln.\\
@@ -221,8 +221,8 @@ Workflow: \texttt{workshop\_workflow\_phase1.ows}
 
 \columnbreak
 
-% ─── 5. Phase 3 – Entscheidungsbaum ──────────────────────────────────────────
-\section{Phase 3 – Entscheidungsbaum}
+% ─── 5. Phase 4 – Entscheidungsbaum (CRISP-DM: Modeling) ────────────────────
+\section{Phase 4 – Entscheidungsbaum}
 
 Workflow: \texttt{workshop\_workflow.ows}
 
@@ -238,6 +238,12 @@ Ein Entscheidungsbaum stellt \textbf{Ja/Nein-Fragen} zu den Features.
 Die Regeln sind menschenlesbar –
 das ist \emph{Explainable AI}: KI, die wir erklären und verteidigen können.
 
+\smallskip
+\textbf{Welche Frage steht ganz oben?}
+Das Modell probiert alle Features und Schwellenwerte aus.
+Die Frage, die die Trainingsflows am \emph{reinsten} trennt
+(fast nur eine Klasse pro Gruppe), kommt als erste Verzweigung in den Baum.
+
 \uebung{3}{%
   \textbf{a)} Lest die erste Verzweigung im Tree Viewer laut vor.
   Ergibt sie für uns als Netzwerker Sinn?\\[8pt]
@@ -247,8 +253,8 @@ das ist \emph{Explainable AI}: KI, die wir erklären und verteidigen können.
   \dotfill
 }
 
-% ─── 6. Phase 4 – Modellbewertung ────────────────────────────────────────────
-\section{Phase 4 – Modellbewertung}
+% ─── 6. Phase 5 – Modellbewertung (CRISP-DM: Evaluation) ────────────────────
+\section{Phase 5 – Modellbewertung}
 
 \begin{enumerate}[start=7]
 \item \textbf{Test and Score:}
@@ -276,7 +282,7 @@ das ist \emph{Explainable AI}: KI, die wir erklären und verteidigen können.
   \dotfill
 }
 
-% ─── 7. Phase 5 – Modellvergleich ────────────────────────────────────────────
+% ─── 7. Phase 5 – Modellvergleich (CRISP-DM: Evaluation, Fortsetzung) ───────
 \section{Phase 5 – Modellvergleich}
 
 \begin{enumerate}[start=9]
