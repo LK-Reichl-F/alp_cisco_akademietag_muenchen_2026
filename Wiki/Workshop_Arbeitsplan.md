@@ -87,7 +87,7 @@ Die Teilnehmer können nach dem Workshop…
 |---|---|---|---|
 | 0–3 | Begrüßung. Netzwerkdiagramm zeigen: Cisco NGFW schützt das Netzwerk über DPI. Frage: „Was passiert bei 100.000 Flows/Sekunde?" | Zuhören, Netzwerk identifizieren | Projektor: Netzwerkdiagramm |
 | 3–7 | Überlastungskette erklären: DDoS → CPU 100 % → Alert Fatigue → echter Angriff unbemerkt. Idee vorstellen: ML-Modell als Vorfilter vor der DPI-Stufe. | Antworten, diskutieren | Projektor: Folie „Das Problem" |
-| 7–10 | GOFA vs. ML: Signatur-Update täglich vs. Modell lernt aus Daten. Lernziele nennen. Ablauf vorstellen. | Zuhören | Projektor: Folien „Regelbasiert vs. ML" + „Lernziele" |
+| 7–10 | Regelkonfiguration (Signaturpflege) vs. ML: Signatur-Update täglich vs. Modell lernt aus Daten. Lernziele nennen. Ablauf vorstellen. | Zuhören | Projektor: Folien „Regelbasiert vs. ML" + „Lernziele" |
 
 **Leitfragen für den Einstieg:**
 - „Kennt ihr das Problem: zu viele Alarme, keiner schaut mehr hin?"

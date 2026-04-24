@@ -4,6 +4,38 @@ Unveränderliches Protokoll aller Wiki-Operationen.
 
 ---
 
+## 2026-04-24 — GOFA/Good Old-Fashioned AI ersetzt
+
+„GOFA" und „Good Old-Fashioned AI" aus allen Unterlagen entfernt. Begründung: Es handelt sich um Firewall-Konfiguration, nicht um eine KI-Anwendung. Ersatz:
+- Vollform: **Regelkonfiguration (Signaturpflege)**
+- Kurzform (bei Platzmangel): **Regelkonfiguration**
+
+Geänderte Dateien:
+- `praesentation.md`: Block-Titel, Spaltenüberschrift, Kernformel-Alertblock, Speaker Notes (4×), Abschluss-Lernpunkte
+- `Wiki/Workshop_Arbeitsplan.md`: Verlaufsplan Phase 1
+
+Nicht geändert: `Wiki/Log.md` (historische Einträge, unveränderlich).
+
+---
+
+## 2026-04-24 — CRISP-DM als Prozessrahmen eingeführt
+
+**Neue Quellen**: `Cross-industry standard process for data mining.md` (Wikipedia), `CRISP-DM_Process_Diagram.png` (offizielle Prozessdiagramm-Grafik).
+
+**`Wiki/CRISP-DM.md`** neu erstellt: Überblick über die sechs CRISP-DM-Phasen, Mermaid-Flussdiagramm mit Rückschleifen, vollständiges Mapping aller Phasen auf den Workshop-Ablauf, didaktische Einordnung.
+
+**`Wiki/Index.md`**: Neue Rubrik „Prozessrahmen" mit Eintrag für CRISP-DM.
+
+**`praesentation.md`**:
+- Lernziel 6 ergänzt: „das heutige Vorgehen den sechs Phasen von CRISP-DM zuordnen"
+- Neue Folie „Unser Prozessrahmen: CRISP-DM" nach Lernziele: linke Spalte Erklärtext + Mapping-Tabelle, rechte Spalte offizielles Prozessdiagramm (`CRISP-DM_Process_Diagram.png`), Speaker Notes
+
+**`handout.tex`**:
+- Vollbreiter CRISP-DM-Rahmenblock vor `\begin{multicols}{2}` mit kompakter Sechs-Phasen-Zuordnung
+- Glossar-Eintrag CRISP-DM ergänzt
+
+---
+
 ## 2026-04-19 — Nachzügler nach Konsistenzprüfung bereinigt
 
 **`Workshop_Handout.md`**: „Das Szenario" auf neue Rahmen-Story aktualisiert (Cisco NGFW, DDoS-Überlastungskette, ML als Vorfilter). Datum auf 2026-04-19 gesetzt.

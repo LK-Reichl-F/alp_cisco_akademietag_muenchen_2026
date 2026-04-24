@@ -106,6 +106,32 @@
 {\color{black}\rule{\linewidth}{0.9pt}}
 \vspace{0pt}
 
+% ── CRISP-DM-Rahmen (Vollbreite) ─────────────────────────────────────────────
+\begin{tcolorbox}[
+  enhanced,
+  colback=hellgrau, colframe=mittelgrau,
+  boxrule=0.5pt, arc=2pt,
+  top=3pt, bottom=3pt, left=7pt, right=7pt,
+  before skip=4pt, after skip=4pt,
+  fonttitle=\sffamily\bfseries\small,
+  attach boxed title to top left={yshift=-2.2mm, xshift=5mm},
+  boxed title style={
+    colback=mittelgrau, colframe=mittelgrau,
+    arc=2pt, top=1pt, bottom=1pt, left=4pt, right=4pt
+  },
+  title={CRISP-DM: Unser Prozessrahmen}
+]
+\footnotesize
+\begin{tabular*}{\linewidth}{@{}r@{\enspace}l@{\hspace{12pt}}r@{\enspace}l@{\hspace{12pt}}r@{\enspace}l@{}}
+\textbf{1} & Business Understanding → Einstieg &
+\textbf{2} & Data Understanding → Daten erkunden &
+\textbf{3} & Data Preparation → \textit{(vorbereitet)} \\[1pt]
+\textbf{4} & Modeling → Entscheidungsbaum &
+\textbf{5} & Evaluation → Modellbewertung &
+\textbf{6} & Deployment → Transfer \& Abschluss \\
+\end{tabular*}
+\end{tcolorbox}
+
 % ════════════════════════════════════════════════════════════════════════════
 \begin{multicols}{2}
 
@@ -301,6 +327,7 @@ kNN               & $\sim$96\,\% & Bedingt & Nein\\
 
 {\small
 \begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X@{}}
+\textbf{CRISP-DM}    & Prozessrahmen für Data Mining: 6 Phasen von Business Understanding bis Deployment \\
 \textbf{Flow}        & Verbindungszusammenfassung (kein Payload) \\
 \textbf{Feature}     & Messbares Merkmal eines Flows \\
 \textbf{Label}       & Bekannte Klasse: \texttt{BENIGN} oder \texttt{DDoS} \\

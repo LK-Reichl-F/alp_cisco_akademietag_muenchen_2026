@@ -194,12 +194,18 @@ Stealthwatch – nur auf einem Laptop und mit 10.000 Flows statt Millionen."
 Betonen: kein Payload, keine Entschlüsselung nötig – das ist der Clou.
 :::
 
+## Maschinelles Lernen
+
+\begin{center}
+\includegraphics[height=0.82\textheight]{MaschinellesLernen.pdf}
+\end{center}
+
 ## Regelbasiert vs. maschinell lernen
 
 :::: columns
 
 ::: column
-\begin{block}{Good Old-Fashioned AI}
+\begin{block}{Regelkonfiguration (Signaturpflege)}
 \textbf{Experte schreibt Regeln per Hand:}
 
 \medskip
@@ -237,9 +243,9 @@ Kein manuelles Signatur-Update.
 
 ::: notes
 Diagramm aus MaschinellesLernen.drawio.svg erklären.
-GOFA: Experten-Wissen kodiert in handgeschriebenen Regeln.
+Regelkonfiguration (Signaturpflege): Experten-Wissen kodiert in handgeschriebenen Regeln.
 ML: Das System „sieht" Tausende Beispiele und findet selbst die Grenzen.
-„Signatur-Updates bei Cisco – das ist GOFA. Was wir heute bauen, ist ML."
+„Signatur-Updates bei Cisco – das ist Regelkonfiguration. Was wir heute bauen, ist ML."
 :::
 
 ## Der Unterschied im Kern
@@ -248,7 +254,7 @@ ML: Das System „sieht" Tausende Beispiele und findet selbst die Grenzen.
 
 ::: column
 \footnotesize
-\textbf{Good Old-Fashioned AI}
+\textbf{Regelkonfiguration (Signaturpflege)}
 
 \smallskip
 
@@ -277,13 +283,13 @@ ML: Das System „sieht" Tausende Beispiele und findet selbst die Grenzen.
 ::::
 
 \begin{alertblock}{Die Kernformel}
-GOFA: Mensch $\rightarrow$ Regeln $\rightarrow$ Ergebnisse\quad|\quad
+Regelkonfiguration: Mensch $\rightarrow$ Regeln $\rightarrow$ Ergebnisse\\
 ML: Daten + Ergebnisse $\rightarrow$ Maschine $\rightarrow$ Regeln
 \end{alertblock}
 
 ::: notes
 Diese Folie ist der konzeptuelle Kern des Workshops.
-Betonen: „Bei GOFA ist der Mensch der Flaschenhals – Experten sind teuer und langsam.
+Betonen: „Bei der Regelkonfiguration ist der Mensch der Flaschenhals – Experten sind teuer und langsam.
 Bei ML ist der Flaschenhals die Datenqualität – aber die haben wir."
 Signatur-Updates: jede neue Malware braucht einen Experten + Deployment-Zyklus.
 ML: Neue Trainingsdaten sammeln, Modell neu trainieren – fertig.
@@ -300,8 +306,55 @@ Nach diesem Workshop können Sie …
 4. einschätzen, was den Unterschied zwischen einem **interpretierbaren**
    und einem **Black-Box-Modell** ausmacht
 5. **Orange Data Mining** für einen einfachen Klassifikations-Workflow nutzen
+6. das heutige Vorgehen den **sechs Phasen von CRISP-DM** zuordnen
+
+## Unser Prozessrahmen: CRISP-DM
+
+:::: columns
+
+::: column
+\small
+\textbf{CRISP-DM} ist der meistgenutzte
+Prozessrahmen für Data-Mining-Projekte –
+industrie- und werkzeugneutral seit 1996.
+
+\medskip
+
+\footnotesize
+\begin{tabular}{@{}rlp{3.4cm}@{}}
+\textbf{1} & Business Und. & Wie funktioniert DDoS? Was lässt sich messen? \\[2pt]
+\textbf{2} & Data Und. & Datensatz lesen: Was trennt BENIGN von DDoS? \\[2pt]
+\textbf{3} & Data Prep. & Daten für Orange aufbereiten \textit{(vorbereitet)} \\[2pt]
+\textbf{4} & Modeling & Entscheidungsbaum aus Trainingsdaten lernen \\[2pt]
+\textbf{5} & Evaluation & Entlastet der Filter die NGFW spürbar? \\[2pt]
+\textbf{6} & Deployment & ML-Regelwerk im Kundennetz einrichten \\
+\end{tabular}
+:::
+
+::: column
+\begin{center}
+\includegraphics[height=0.72\textheight]{../Quellen/CRISP-DM_Process_Diagram.png}
+\end{center}
+:::
+
+::::
+
+::: notes
+CRISP-DM kurz vorstellen: „Das, was wir heute tun, ist kein Ad-hoc-Vorgehen –
+wir folgen einem etablierten Prozessmodell, das in der Industrie Standard ist."
+Betonen: Phase 3 (Data Preparation) haben wir vorbereitet – im echten Projekt
+ist das oft der aufwändigste Schritt.
+Hinweis: Am Ende des Workshops kurz zurückblenden – welche Phase hat wie lang gedauert?
+:::
 
 # Daten erkunden
+
+## CRISP-DM · Phase 2: Data Understanding
+
+\begin{block}{Im Workshop}
+Welche Daten liegen vor, was bedeuten sie,
+und wie unterscheiden sich BENIGN von DDoS?
+\end{block}
 
 ## Der Datensatz: CICIDS2017
 
@@ -393,6 +446,16 @@ Genau diese Struktur \textbf{lernt} ein KI-Modell.
 
 # Entscheidungsbaum
 
+## CRISP-DM · Phase 4: Modeling
+
+\begin{block}{Im Workshop}
+Aus Trainingsdaten Entscheidungsregeln lernen.
+\end{block}
+
+\begin{exampleblock}{Phase 3: Data Preparation (vorbereitet)}
+\small \texttt{workshop\_ids.tab} wurde vorab bereinigt und für Orange aufbereitet.
+\end{exampleblock}
+
 ## Was ist ein Entscheidungsbaum?
 
 :::: columns
@@ -467,6 +530,13 @@ Statistik. „Kann jeder diese Regeln verstehen?" $\rightarrow$ Ja, der Baum ist
 :::
 
 # Modellbewertung
+
+## CRISP-DM · Phase 5: Evaluation
+
+\begin{block}{Im Workshop}
+Entlastet der Filter die NGFW spürbar?
+Kann das Modell gutartigen und bösartigen Traffic gut genug trennen?
+\end{block}
 
 ## Wie gut ist unser Modell?
 
@@ -585,6 +655,13 @@ Diskussionsfragen: „Wie viele False Positives sind tolerierbar?" –
 :::
 
 # Modellvergleich
+
+## CRISP-DM · Phase 5: Evaluation (Fortsetzung)
+
+\begin{block}{Im Workshop}
+Welches Modell ist gut genug – und erklärbar genug,
+um es vor Vorgesetzten und Schülern zu verteidigen?
+\end{block}
 
 ## Entscheidungsbaum – Flowchart-Logik
 
@@ -768,10 +845,17 @@ aber warum, kann ich nicht zeigen."
 
 # Abschluss
 
+## CRISP-DM · Phase 6: Deployment
+
+\begin{block}{Im Workshop}
+Das ML-Regelwerk im Kundennetz einrichten und aktivieren –
+als Entlastung vor der Cisco NGFW.
+\end{block}
+
 ## Was haben wir gelernt?
 
 1. **DPI überlastet bei DDoS** – Cisco NGFW braucht einen Vorfilter
-2. **ML lernt Regeln aus Daten** – kein manuelles Signatur-Update nötig (≠ GOFA)
+2. **ML lernt Regeln aus Daten** – kein manuelles Signatur-Update nötig (≠ Regelkonfiguration)
 3. **Entscheidungsbaum = erklärbare KI** – Regeln lesbar, verteidigbar, einsetzbar
 4. **Kein Modell ist perfekt** – False Positives und False Negatives sind unvermeidbar
 5. **Die Wahl des Modells ist eine Fachentscheidung** – Genauigkeit vs. Erklärbarkeit

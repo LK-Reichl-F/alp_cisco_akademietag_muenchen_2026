@@ -24,6 +24,10 @@
 - [[CICFlowMeter_Features]] — Erklärung der 80+ Netzwerkflow-Features
 - [[On_Premise_Netzwerktopologie]] — Netzwerkaufbau des CICIDS2017-Labors mit IP-Adressen
 
+## Prozessrahmen
+
+- [[CRISP-DM]] — Standard-Prozessmodell für Data Mining; Mapping aller sechs Phasen auf den Workshop
+
 ## Angriffswissen
 
 - [[Angriffsszenarien]] — Alle Angriffstypen im CICIDS2017-Datensatz mit Erklärungen und Zeitplan
