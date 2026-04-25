@@ -46,6 +46,15 @@ header-includes:
 \end{column}
 \end{columns}
 
+\vfill
+
+\hfill\begin{minipage}{2.0cm}
+\centering
+\includegraphics[width=2.0cm]{../Quellen/netacad2026.png}
+
+\tiny\color{gray}GitHub-Repository
+\end{minipage}
+
 ::: notes
 Kurzer Überblick über den Ablauf. Betonen: Kein Programmieren, kein Mathe – wir
 arbeiten visuell. 90 Minuten, 6 Phasen.
